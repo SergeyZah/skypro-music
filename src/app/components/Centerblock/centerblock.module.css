@@ -3,7 +3,7 @@
   -webkit-box-flex: 3;
   -ms-flex-positive: 3;
   flex-grow: 3;
-  padding: 20px 40px 20px 111px;
+  padding: 20px 100px 20px 50px;
 }
 
 .centerblock__search {
@@ -101,7 +101,7 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  margin-bottom: 51px;
+  margin-bottom: 58px;
 }
 
 .centerblock__content {
@@ -185,7 +185,7 @@
 }
 
 .col01 {
-  width: 447px;
+  width: 470px;
 }
 
 .col02 {
@@ -234,7 +234,7 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  width: 447px;
+  width: 470px;
 }
 
 .track__titleImage {

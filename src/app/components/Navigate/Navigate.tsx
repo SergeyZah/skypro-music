@@ -28,7 +28,7 @@ export default function Navigate() {
           </li>
           <li className={styles.menu__item}>
             <Link href="#" className={styles.menu__link}>
-              Мой плейлист
+              Мои треки
             </Link>
           </li>
           <li className={styles.menu__item}>

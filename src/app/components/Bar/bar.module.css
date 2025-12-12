@@ -254,6 +254,7 @@
 
 .trackPlay__dislike {
   margin-left: 28.5px;
+  display: flex;
 }
 
 .trackPlay__dislikeSvg {
@@ -261,6 +262,7 @@
   height: 13px;
   fill: transparent;
   stroke: #696969;
+  display: none;
 }
 
 .volume__content {
