@@ -1,6 +1,7 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 body {
@@ -21,4 +22,8 @@ a,
 input,
 button {
   font-family: var(--font-montserrat), 'Arial';
+}
+
+a {
+  text-decoration: none;
 }
