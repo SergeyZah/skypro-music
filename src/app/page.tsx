@@ -1,9 +1,9 @@
 import './page.css';
-import Image from 'next/image';
 import Link from 'next/link';
 import Navigate from './components/Navigate/Navigate';
 import styles from './page.module.css'
 import Centerblock from './components/Centerblock/Centerblock';
+import Sidebar from './components/Sidebar/Sidebar';
 
 export default function Home() {
   return (
@@ -12,53 +12,7 @@ export default function Home() {
         <main className={styles.main}>
           <Navigate/>
           <Centerblock/>
-          <div className={'main__sidebar'}>
-            <div className={'sidebar__personal'}>
-              <p className={'sidebar__personalName'}>Sergey.Ivanov</p>
-              <div className={'sidebar__icon'}>
-                <svg>
-                  <use xlinkHref="/img/icon/sprite.svg#logout"></use>
-                </svg>
-              </div>
-            </div>
-            <div className={'sidebar__block'}>
-              <div className={'sidebar__list'}>
-                <div className={'sidebar__item'}>
-                  <Link className={'sidebar__link'} href="#">
-                    <Image
-                      className={'sidebar__img'}
-                      src="/img/playlist01.png"
-                      alt="day's playlist"
-                      width={250}
-                      height={170}
-                    />
-                  </Link>
-                </div>
-                <div className={'sidebar__item'}>
-                  <Link className={'sidebar__link'} href="#">
-                    <Image
-                      className={'sidebar__img'}
-                      src="/img/playlist02.png"
-                      alt="day's playlist"
-                      width={250}
-                      height={170}
-                    />
-                  </Link>
-                </div>
-                <div className={'sidebar__item'}>
-                  <Link className={'sidebar__link'} href="#">
-                    <Image
-                      className={'sidebar__img'}
-                      src="/img/playlist03.png"
-                      alt="day's playlist"
-                      width={250}
-                      height={170}
-                    />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
+          <Sidebar/>
         </main>
         <div className={'bar'}>
           <div className={'bar__content'}>
