@@ -3,18 +3,18 @@ import styles from './track.module.css';
 
 export default function Track({
   key,
-  title,
+  name,
   author,
   album,
   time,
   span,
 }: {
   key: number;
-  title: string;
+  name: string;
   author: string;
   album: string;
-  time: string;
-  span: string;
+  time: number;
+  span?: string;
 }) {
   return (
     <div className={styles.playlist__item} key={key}>
@@ -27,7 +27,7 @@ export default function Track({
           </div>
           <div className={'track__title-text'}>
             <Link className={styles.track__titleLink} href="">
-              {title} <span className={styles.track__titleSpan}>{span}</span>
+              {name} <span className={styles.track__titleSpan}>{span}</span>
             </Link>
           </div>
         </div>
