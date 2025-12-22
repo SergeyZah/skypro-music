@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import styles from './track.module.css';
+import { formatTime } from '@/utils/helper';
 
 export default function Track({
   key,
@@ -45,7 +46,7 @@ export default function Track({
           <svg className={styles.track__timeSvg}>
             <use xlinkHref="/img/icon/sprite.svg#icon-like"></use>
           </svg>
-          <span className={styles.track__timeText}>{time}</span>
+          <span className={styles.track__timeText}>{formatTime(time)}</span>
         </div>
       </div>
     </div>
