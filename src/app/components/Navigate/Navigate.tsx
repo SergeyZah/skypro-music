@@ -17,7 +17,6 @@ export default function Navigate() {
     }
   };
 
-  console.log(isNavigate);
   return (
     <nav className={styles.main__nav}>
       <div className={styles.nav__logo}>
