@@ -1,7 +1,7 @@
-import styles from './contentHeader.module.css'
+import styles from './listHeader.module.css'
 import classnames from 'classnames'
 
-export default function ContentHeader() {
+export default function Listheader() {
   return (
     <div className={styles.content__title}>
       <div className={classnames(styles.playlistTitle__col, styles.col01)}>

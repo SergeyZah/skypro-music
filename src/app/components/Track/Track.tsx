@@ -2,6 +2,15 @@ import Link from 'next/link';
 import styles from './track.module.css';
 import { formatTime } from '@/utils/helper';
 
+type trackProp = {
+  key: number;
+  name: string;
+  author: string;
+  album: string;
+  time: number;
+  span?: string;
+};
+
 export default function Track({
   key,
   name,
@@ -9,14 +18,7 @@ export default function Track({
   album,
   time,
   span,
-}: {
-  key: number;
-  name: string;
-  author: string;
-  album: string;
-  time: number;
-  span?: string;
-}) {
+}: trackProp) {
   return (
     <div className={styles.playlist__item} key={key}>
       <div className={styles.playlist__track}>
