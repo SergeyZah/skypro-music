@@ -33,6 +33,7 @@
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
+  cursor: pointer;
 }
 
 .burger__line {
@@ -45,6 +46,10 @@
 .nav__menu {
   display: block;
   visibility: visible;
+  display: none;
+}
+.active {
+  display: block;
 }
 
 .menu__list {
