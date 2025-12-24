@@ -32,6 +32,13 @@
   padding: 6px 20px;
   color: white;
   cursor: pointer;
+
+  &:hover {
+    box-sizing: border-box;
+    border: 1px solid rgba(154, 72, 241, 1);
+    border-radius: 60px;
+    color: rgba(182, 114, 255, 1);
+  }
 }
 
 .filter__button:not(:last-child) {
