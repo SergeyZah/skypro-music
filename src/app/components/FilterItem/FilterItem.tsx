@@ -12,8 +12,6 @@ export default function FilterItem({ filterType }: FilterItemProp) {
 
   let filterList: string[] = [];
 
-  console.log(filterType)
-
   if (filterType === 'author') {
     filterList = getUniqueValuesByKey(data, 'author');
   } if (filterType === 'year') {

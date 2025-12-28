@@ -51,4 +51,8 @@
 
 .filter__el {
   cursor: pointer;
+
+  &:hover {
+    color: rgba(182, 114, 255, 1);
+  }
 }

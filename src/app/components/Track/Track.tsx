@@ -1,26 +1,28 @@
+'use client'
+
 import Link from 'next/link';
 import styles from './track.module.css';
 import { formatTime } from '@/utils/helper';
+import { useAppDispatch } from '@/store/store';
+import { setCurrentTrack } from '@/store/features/trackSlice';
+import { TrackType } from '@/sharedTypes/sharedTypes';
 
-type trackProp = {
-  key: number;
-  name: string;
-  author: string;
-  album: string;
-  time: number;
-  span?: string;
+type TrackTypeProp = {
+  track: TrackType;
 };
 
-export default function Track({
-  key,
-  name,
-  author,
-  album,
-  time,
-  span,
-}: trackProp) {
+export default function Track({ track }: TrackTypeProp) {
+  const dispatch = useAppDispatch();
+
+  const onClickTrack = () => {
+    dispatch(setCurrentTrack(track));
+  };
   return (
-    <div className={styles.playlist__item} key={key}>
+    <div
+      className={styles.playlist__item}
+      key={track._id}
+      onClick={onClickTrack}
+    >
       <div className={styles.playlist__track}>
         <div className={styles.track__title}>
           <div className={styles.track__titleImage}>
@@ -30,25 +32,27 @@ export default function Track({
           </div>
           <div className={'track__title-text'}>
             <Link className={styles.track__titleLink} href="">
-              {name} <span className={styles.track__titleSpan}>{span}</span>
+              {track.name} <span className={styles.track__titleSpan}>{}</span>
             </Link>
           </div>
         </div>
         <div className={styles.track__author}>
           <Link className={styles.track__authorLink} href="">
-            {author}
+            {track.author}
           </Link>
         </div>
         <div className={styles.track__album}>
           <Link className={styles.track__albumLink} href="">
-            {album}
+            {track.album}
           </Link>
         </div>
         <div className="track__time">
           <svg className={styles.track__timeSvg}>
             <use xlinkHref="/img/icon/sprite.svg#icon-like"></use>
           </svg>
-          <span className={styles.track__timeText}>{formatTime(time)}</span>
+          <span className={styles.track__timeText}>
+            {formatTime(track.duration_in_seconds)}
+          </span>
         </div>
       </div>
     </div>
