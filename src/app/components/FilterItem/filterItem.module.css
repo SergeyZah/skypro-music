@@ -1,0 +1,54 @@
+.filter__modal {
+  display: none;
+  position: absolute;
+  border-radius: 12px;
+  background: rgba(49, 49, 49, 1);
+}
+
+.active_author {
+  display: block;
+  top: 50px;
+  left: 100px;
+}
+
+.active_year {
+  display: block;
+  top: 50px;
+  left: 267px;
+}
+
+.active_genre {
+  display: block;
+  top: 50px;
+  left: 430px;
+}
+
+.filter__list {
+  color: white;
+  display: flex;
+  gap: 28px;
+  height: max-content;
+  max-height: 237px;
+  overflow-y: auto;
+  flex-direction: column;
+  width: max-content;
+  max-width: 248px;
+  background: rgba(49, 49, 49, 1);
+  margin: 34px;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: rgba(75, 73, 73, 1);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: white;
+  }
+}
+
+.filter__el {
+  cursor: pointer;
+}

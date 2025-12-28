@@ -1,8 +1,22 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './navigate.module.css';
+import { useState } from 'react';
+import classnames from 'classnames';
 
 export default function Navigate() {
+  const [isNavigate, setIsNavigate] = useState(false);
+
+  const changeVisibleNavigate = () => {
+    if (isNavigate) {
+      setIsNavigate(false);
+    } else {
+      setIsNavigate(true);
+    }
+  };
+
   return (
     <nav className={styles.main__nav}>
       <div className={styles.nav__logo}>
@@ -14,12 +28,16 @@ export default function Navigate() {
           alt={'logo'}
         />
       </div>
-      <div className={styles.nav__burger}>
+      <div onClick={changeVisibleNavigate} className={styles.nav__burger}>
         <span className={styles.burger__line}></span>
         <span className={styles.burger__line}></span>
         <span className={styles.burger__line}></span>
       </div>
-      <div className={styles.nav__menu}>
+      <div
+        className={classnames(styles.nav__menu, {
+          [styles.active]: isNavigate === true,
+        })}
+      >
         <ul className={styles.menu__list}>
           <li className={styles.menu__item}>
             <Link href="#" className={styles.menu__link}>

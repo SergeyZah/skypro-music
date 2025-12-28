@@ -1,21 +1,24 @@
 import Link from 'next/link';
 import styles from './track.module.css';
+import { formatTime } from '@/utils/helper';
+
+type trackProp = {
+  key: number;
+  name: string;
+  author: string;
+  album: string;
+  time: number;
+  span?: string;
+};
 
 export default function Track({
   key,
-  title,
+  name,
   author,
   album,
   time,
   span,
-}: {
-  key: number;
-  title: string;
-  author: string;
-  album: string;
-  time: string;
-  span: string;
-}) {
+}: trackProp) {
   return (
     <div className={styles.playlist__item} key={key}>
       <div className={styles.playlist__track}>
@@ -27,7 +30,7 @@ export default function Track({
           </div>
           <div className={'track__title-text'}>
             <Link className={styles.track__titleLink} href="">
-              {title} <span className={styles.track__titleSpan}>{span}</span>
+              {name} <span className={styles.track__titleSpan}>{span}</span>
             </Link>
           </div>
         </div>
@@ -45,7 +48,7 @@ export default function Track({
           <svg className={styles.track__timeSvg}>
             <use xlinkHref="/img/icon/sprite.svg#icon-like"></use>
           </svg>
-          <span className={styles.track__timeText}>{time}</span>
+          <span className={styles.track__timeText}>{formatTime(time)}</span>
         </div>
       </div>
     </div>
