@@ -43,13 +43,19 @@ export default function Bar() {
                 </svg>
               </div>
               {isPlay ? (
-                <div onClick={pauseTrack} className={classnames(styles.player__btnPlay, styles.btn)}>
+                <div
+                  onClick={pauseTrack}
+                  className={classnames(styles.player__btnPlay, styles.btn)}
+                >
                   <svg className={styles.player__btnPlaySvg}>
                     <use xlinkHref="/img/icon/sprite.svg#icon-pause"></use>
                   </svg>
                 </div>
               ) : (
-                <div onClick={playTrack} className={classnames(styles.player__btnPlay, styles.btn)}>
+                <div
+                  onClick={playTrack}
+                  className={classnames(styles.player__btnPlay, styles.btn)}
+                >
                   <svg className={styles.player__btnPlaySvg}>
                     <use xlinkHref="/img/icon/sprite.svg#icon-play"></use>
                   </svg>

@@ -17,7 +17,7 @@ export default function Track({ track }: TrackTypeProp) {
   const isPlay = useAppSelector((state) => state.tracks.isPlay);
   const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
 
-  const onClickTrack = () => {
+  const OnClickTrack = () => {
     dispatch(setCurrentTrack(track));
   };
 
@@ -25,7 +25,7 @@ export default function Track({ track }: TrackTypeProp) {
     <div
       className={styles.playlist__item}
       key={track._id}
-      onClick={onClickTrack}
+      onClick={OnClickTrack}
     >
       <div className={styles.playlist__track}>
         <div className={styles.track__title}>
@@ -36,7 +36,7 @@ export default function Track({ track }: TrackTypeProp) {
                   [styles.icon]: isPlay,
                 })}
               >
-                <use xlinkHref="/img/icon/sprite.svg#icon-note"></use>
+                <use xlinkHref="/img/icon/sprite.svg#icon-play"></use>
               </svg>
             ) : (
               <svg className={styles.track__titleSvg}>
