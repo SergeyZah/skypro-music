@@ -19,7 +19,7 @@ export default function Track({ track }: TrackTypeProp) {
 
   const onClickTrack = () => {
     dispatch(setCurrentTrack(track));
-    dispatch(setIsPlay(true))
+    dispatch(setIsPlay(true));
   };
 
   return (
@@ -33,11 +33,22 @@ export default function Track({ track }: TrackTypeProp) {
           <div className={styles.track__titleImage}>
             {currentTrack?._id === track._id ? (
               <svg
+                viewBox="0 0 16 16"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlnsXlink="http://www.w3.org/1999/xlink"
+                width="16.000000"
+                height="16.000000"
+                fill="none"
                 className={classnames(styles.track__titleSvg1, {
                   [styles.icon]: isPlay,
                 })}
               >
-                <use xlinkHref="/img/icon/sprite.svg#icon-play"></use>
+                <path
+                  id="Rectangle 3776"
+                  d="M8 0C12.4183 0 16 3.58172 16 8C16 12.4183 12.4183 16 8 16C3.58172 16 0 12.4183 0 8C0 3.58172 3.58172 0 8 0Z"
+                  fill="rgb(181.661,113.688,255)"
+                  fill-rule="nonzero"
+                />
               </svg>
             ) : (
               <svg className={styles.track__titleSvg}>
