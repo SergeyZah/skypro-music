@@ -33,7 +33,7 @@ export default function Bar() {
         <div className={styles.bar__playerBlock}>
           <div className={styles.bar__player}>
             <div className={styles.player__controls}>
-              <div className={styles.player__btnPrev}>
+              <div className={classnames(styles.player__btnPrev, styles.btn)}>
                 <svg className={styles.player__btnPrevSvg}>
                   <use xlinkHref="/img/icon/sprite.svg#icon-prev"></use>
                 </svg>
@@ -57,7 +57,7 @@ export default function Bar() {
                   </svg>
                 </div>
               )}
-              <div className={styles.player__btnNext}>
+              <div className={classnames(styles.player__btnNext, styles.btn)}>
                 <svg className={styles.player__btnNextSvg}>
                   <use xlinkHref="/img/icon/sprite.svg#icon-next"></use>
                 </svg>

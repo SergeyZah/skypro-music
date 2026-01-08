@@ -95,6 +95,8 @@
 .player__btnPrevSvg {
   width: 15px;
   height: 14px;
+  fill: inherit;
+  stroke: #d9d9d9;
 }
 
 .player__btnPlay {
@@ -104,12 +106,12 @@
 .player__btnPlaySvg {
   width: 22px;
   height: 20px;
-  fill: #d9d9d9;
+  fill: inherit;
+  stroke: #d9d9d9;
 }
 
 .player__btnNext {
   margin-right: 28px;
-  fill: #a53939;
 }
 
 .player__btnNextSvg {
@@ -327,6 +329,12 @@
 }
 
 .btn {
+  cursor: pointer;
+}
+
+.btn:hover svg {
+  fill: transparent;
+  stroke: rgba(105, 105, 105, 1);
   cursor: pointer;
 }
 
