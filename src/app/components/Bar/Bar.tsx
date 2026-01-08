@@ -14,19 +14,15 @@ export default function Bar() {
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const playTrack = () => {
-    if (audioRef.current) {
-      audioRef.current.play();
+  const onTogglePlay = () => {
+    if (isPlay) {
+      audioRef.current?.pause();
+      dispatch(setIsPlay(false));
+    } else {
+      audioRef.current?.play();
       dispatch(setIsPlay(true));
     }
-  };
-
-  const pauseTrack = () => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-      dispatch(setIsPlay(false));
-    }
-  };
+  }
 
   if (!currentTrack) return <></>;
   return (
@@ -44,7 +40,7 @@ export default function Bar() {
               </div>
               {isPlay ? (
                 <div
-                  onClick={pauseTrack}
+                  onClick={onTogglePlay}
                   className={classnames(styles.player__btnPlay, styles.btn)}
                 >
                   <svg className={styles.player__btnPlaySvg}>
@@ -53,7 +49,7 @@ export default function Bar() {
                 </div>
               ) : (
                 <div
-                  onClick={playTrack}
+                  onClick={onTogglePlay}
                   className={classnames(styles.player__btnPlay, styles.btn)}
                 >
                   <svg className={styles.player__btnPlaySvg}>
