@@ -13,6 +13,7 @@ export default function Bar() {
   const isPlay = useAppSelector((state) => state.tracks.isPlay);
 
   const [isLoop, setIsLoop] = useState(false);
+  const [isLoadedTrack, setIsLoadedTrack] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -32,8 +33,24 @@ export default function Bar() {
   };
 
   const onTimeUpdate = () => {
-    
-  }
+    if (audioRef.current) {
+      // console.log(audioRef.current.currentTime);
+    }
+  };
+
+  const onLoadedMetadata = () => {
+    if (audioRef.current) {
+      audioRef.current.play();
+      dispatch(setIsPlay(true));
+    }
+  };
+
+  const onChangeVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (audioRef.current) {
+      audioRef.current.volume = Number(e.target.value) / 100;
+      console.log(audioRef.current.volume);
+    }
+  };
 
   if (!currentTrack) return <></>;
   return (
@@ -44,6 +61,7 @@ export default function Bar() {
         src={currentTrack?.track_file}
         loop={true}
         onTimeUpdate={onTimeUpdate}
+        onLoadedMetadata={onLoadedMetadata}
       ></audio>
       <div className={styles.bar__content}>
         <div className={styles.bar__playerProgress}></div>
@@ -74,7 +92,11 @@ export default function Bar() {
                 onClick={onToggleLoop}
                 className={classnames(styles.player__btnRepeat, styles.btnIcon)}
               >
-                <svg className={classnames(styles.player__btnRepeatSvg, {[styles.player__btnRepeatSvg_active]: isLoop,})}>
+                <svg
+                  className={classnames(styles.player__btnRepeatSvg, {
+                    [styles.player__btnRepeatSvg_active]: isLoop,
+                  })}
+                >
                   <use xlinkHref="/img/icon/sprite.svg#icon-repeat"></use>
                 </svg>
               </div>
@@ -148,6 +170,7 @@ export default function Bar() {
                   )}
                   type="range"
                   name="range"
+                  onChange={onChangeVolume}
                 />
               </div>
             </div>
