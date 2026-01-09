@@ -9,7 +9,7 @@ export default function Tracklist() {
       <Listheader />
       <div className={styles.content__playlist}>
         {data.map((track) => {
-          return <Track key={track._id} track={track} />;
+          return <Track key={track._id} track={track} playList={data}/>;
         })}
       </div>
     </div>
