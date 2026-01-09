@@ -5,7 +5,12 @@ import styles from './bar.module.css';
 import classnames from 'classnames';
 import { useAppDispatch, useAppSelector } from '@/store/store';
 import { useEffect, useRef, useState } from 'react';
-import { setIsPlay, setNextTrack, setPrevTrack } from '@/store/features/trackSlice';
+import {
+  setIsPlay,
+  setNextTrack,
+  setPrevTrack,
+  toggleShuffle,
+} from '@/store/features/trackSlice';
 import ProgressBar from '../ProgressBar/ProgressBar';
 
 export default function Bar() {
@@ -69,12 +74,16 @@ export default function Bar() {
   };
 
   const onNextTrack = () => {
-    dispatch(setNextTrack())
-  }
+    dispatch(setNextTrack());
+  };
 
   const onPrevTrack = () => {
-    dispatch(setPrevTrack())
-  }
+    dispatch(setPrevTrack());
+  };
+
+  const onToggleShuffle = () => {
+    dispatch(toggleShuffle());
+  };
 
   return (
     <div className={styles.bar}>
@@ -97,7 +106,10 @@ export default function Bar() {
         <div className={styles.bar__playerBlock}>
           <div className={styles.bar__player}>
             <div className={styles.player__controls}>
-              <div onClick={onPrevTrack} className={classnames(styles.player__btnPrev, styles.btn)}>
+              <div
+                onClick={onPrevTrack}
+                className={classnames(styles.player__btnPrev, styles.btn)}
+              >
                 <svg className={styles.player__btnPrevSvg}>
                   <use xlinkHref="/img/icon/sprite.svg#icon-prev"></use>
                 </svg>
@@ -112,7 +124,10 @@ export default function Bar() {
                   ></use>
                 </svg>
               </div>
-              <div onClick={onNextTrack} className={classnames(styles.player__btnNext, styles.btn)}>
+              <div
+                onClick={onNextTrack}
+                className={classnames(styles.player__btnNext, styles.btn)}
+              >
                 <svg className={styles.player__btnNextSvg}>
                   <use xlinkHref="/img/icon/sprite.svg#icon-next"></use>
                 </svg>
@@ -130,6 +145,7 @@ export default function Bar() {
                 </svg>
               </div>
               <div
+                onClick={onToggleShuffle}
                 className={classnames(
                   styles.player__btnShuffle,
                   styles.btnIcon,
