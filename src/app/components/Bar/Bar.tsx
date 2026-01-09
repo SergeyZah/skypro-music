@@ -4,8 +4,9 @@ import Link from 'next/link';
 import styles from './bar.module.css';
 import classnames from 'classnames';
 import { useAppDispatch, useAppSelector } from '@/store/store';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { setIsPlay } from '@/store/features/trackSlice';
+import ProgressBar from '../ProgressBar/ProgressBar';
 
 export default function Bar() {
   const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
@@ -16,6 +17,12 @@ export default function Bar() {
   const [isLoadedTrack, setIsLoadedTrack] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    setIsLoadedTrack(false);
+  }, [currentTrack]);
+
+  if (!currentTrack) return <></>;
 
   const onTogglePlay = () => {
     if (isPlay) {
@@ -42,6 +49,7 @@ export default function Bar() {
     if (audioRef.current) {
       audioRef.current.play();
       dispatch(setIsPlay(true));
+      setIsLoadedTrack(true);
     }
   };
 
@@ -52,7 +60,14 @@ export default function Bar() {
     }
   };
 
-  if (!currentTrack) return <></>;
+  const onChangeProgress = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (audioRef.current) {
+      const inputTime = Number(e.target.value);
+
+      audioRef.current.currentTime = inputTime;
+    }
+  };
+
   return (
     <div className={styles.bar}>
       <audio
@@ -64,7 +79,13 @@ export default function Bar() {
         onLoadedMetadata={onLoadedMetadata}
       ></audio>
       <div className={styles.bar__content}>
-        <div className={styles.bar__playerProgress}></div>
+        <ProgressBar
+          max={audioRef.current?.duration || 0}
+          step={0.1}
+          readOnly={!isLoadedTrack}
+          value={audioRef.current?.currentTime || 0}
+          onChange={onChangeProgress}
+        />
         <div className={styles.bar__playerBlock}>
           <div className={styles.bar__player}>
             <div className={styles.player__controls}>
