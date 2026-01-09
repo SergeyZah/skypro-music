@@ -4,13 +4,15 @@ import Link from 'next/link';
 import styles from './bar.module.css';
 import classnames from 'classnames';
 import { useAppDispatch, useAppSelector } from '@/store/store';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { setIsPlay } from '@/store/features/trackSlice';
 
 export default function Bar() {
   const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
   const dispatch = useAppDispatch();
   const isPlay = useAppSelector((state) => state.tracks.isPlay);
+
+  const [isLoop, setIsLoop] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -22,12 +24,27 @@ export default function Bar() {
       audioRef.current?.play();
       dispatch(setIsPlay(true));
     }
+  };
+
+  const onToggleLoop = () => {
+    setIsLoop(!isLoop);
+    console.log(isLoop);
+  };
+
+  const onTimeUpdate = () => {
+    
   }
 
   if (!currentTrack) return <></>;
   return (
     <div className={styles.bar}>
-      <audio ref={audioRef} autoPlay src={currentTrack?.track_file}></audio>
+      <audio
+        ref={audioRef}
+        autoPlay
+        src={currentTrack?.track_file}
+        loop={true}
+        onTimeUpdate={onTimeUpdate}
+      ></audio>
       <div className={styles.bar__content}>
         <div className={styles.bar__playerProgress}></div>
         <div className={styles.bar__playerBlock}>
@@ -38,34 +55,26 @@ export default function Bar() {
                   <use xlinkHref="/img/icon/sprite.svg#icon-prev"></use>
                 </svg>
               </div>
-              {isPlay ? (
-                <div
-                  onClick={onTogglePlay}
-                  className={classnames(styles.player__btnPlay, styles.btn)}
-                >
-                  <svg className={styles.player__btnPlaySvg}>
-                    <use xlinkHref="/img/icon/sprite.svg#icon-pause"></use>
-                  </svg>
-                </div>
-              ) : (
-                <div
-                  onClick={onTogglePlay}
-                  className={classnames(styles.player__btnPlay, styles.btn)}
-                >
-                  <svg className={styles.player__btnPlaySvg}>
-                    <use xlinkHref="/img/icon/sprite.svg#icon-play"></use>
-                  </svg>
-                </div>
-              )}
+              <div
+                onClick={onTogglePlay}
+                className={classnames(styles.player__btnPlay, styles.btn)}
+              >
+                <svg className={styles.player__btnPlaySvg}>
+                  <use
+                    xlinkHref={`/img/icon/sprite.svg#icon-${isPlay ? 'pause' : 'play'}`}
+                  ></use>
+                </svg>
+              </div>
               <div className={classnames(styles.player__btnNext, styles.btn)}>
                 <svg className={styles.player__btnNextSvg}>
                   <use xlinkHref="/img/icon/sprite.svg#icon-next"></use>
                 </svg>
               </div>
               <div
+                onClick={onToggleLoop}
                 className={classnames(styles.player__btnRepeat, styles.btnIcon)}
               >
-                <svg className={styles.player__btnRepeatSvg}>
+                <svg className={classnames(styles.player__btnRepeatSvg, {[styles.player__btnRepeatSvg_active]: isLoop,})}>
                   <use xlinkHref="/img/icon/sprite.svg#icon-repeat"></use>
                 </svg>
               </div>

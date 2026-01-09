@@ -132,6 +132,13 @@
   stroke: #696969;
 }
 
+.player__btnRepeatSvg_active {
+  width: 18px;
+  height: 12px;
+  fill: transparent;
+  stroke: #ffffff;
+}
+
 .player__btnShuffle {
   display: -webkit-box;
   display: -ms-flexbox;
