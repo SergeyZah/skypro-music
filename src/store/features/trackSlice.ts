@@ -43,8 +43,13 @@ const trackSlice = createSlice({
       const currentIndex = playList.findIndex(
         (el) => el._id === state.currentTrack?._id,
       );
-      const nextCurrentIndex = currentIndex + 1;
-      state.currentTrack = playList[nextCurrentIndex];
+      if (currentIndex !== playList.length - 1) {
+        const nextTrackIndex = currentIndex + 1;
+        state.currentTrack = playList[nextTrackIndex];
+      } else {
+        const nextTrackIndex = 0;
+        state.currentTrack = playList[nextTrackIndex];
+      }
     },
     setPrevTrack: (state) => {
       const playList = state.isShuffle
@@ -54,8 +59,12 @@ const trackSlice = createSlice({
         const currentIndex = playList.findIndex(
           (el) => el._id === state.currentTrack?._id,
         );
-        const nextCurrentIndex = currentIndex - 1;
-        state.currentTrack = playList[nextCurrentIndex];
+        if (currentIndex !== 0) {
+          const prevCurrentIndex = currentIndex - 1;
+          state.currentTrack = playList[prevCurrentIndex];
+        } else {
+          state.currentTrack = playList[playList.length - 1];
+        }
       }
     },
   },
