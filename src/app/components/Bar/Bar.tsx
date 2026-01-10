@@ -32,8 +32,6 @@ export default function Bar() {
     setIsLoadedTrack(false);
   }, [currentTrack]);
 
-  console.log(isLoadedTrack);
-
   if (!currentTrack) return <></>;
 
   const onTogglePlay = () => {
@@ -90,6 +88,18 @@ export default function Bar() {
     dispatch(toggleShuffle());
   };
 
+  const onEnded = () => {
+    dispatch(setIsPlay(false));
+
+    if (isLoop) {
+      if (audioRef.current) {
+        audioRef.current.play();
+      }
+    } else {
+      dispatch(setNextTrack());
+    }
+  };
+
   return (
     <div className={styles.bar}>
       <audio
@@ -99,17 +109,22 @@ export default function Bar() {
         loop={isLoop}
         onTimeUpdate={onTimeUpdate}
         onLoadedMetadata={onLoadedMetadata}
+        onEnded={onEnded}
       ></audio>
       <div className={styles.bar__content}>
-        {isLoadedTrack ? <></> : <div className={styles.bar__loader}>Загрузка трека</div>}
+        {isLoadedTrack ? (
+          <></>
+        ) : (
+          <div className={styles.bar__loader}>Загрузка трека</div>
+        )}
         <div className={styles.trackPlay__time}>
           {getTimePanel(currentTime, durationTime)}
         </div>
         <ProgressBar
-          max={durationTime}
+          max={durationTime || 0}
           step={0.1}
           readOnly={!isLoadedTrack}
-          value={currentTime}
+          value={currentTime || 0}
           onChange={onChangeProgress}
         />
         <div className={styles.bar__playerBlock}>
