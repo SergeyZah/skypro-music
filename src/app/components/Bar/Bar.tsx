@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 'use client';
 
 import Link from 'next/link';
@@ -12,20 +13,26 @@ import {
   toggleShuffle,
 } from '@/store/features/trackSlice';
 import ProgressBar from '../ProgressBar/ProgressBar';
+import { getTimePanel } from '@/utils/helper';
 
 export default function Bar() {
   const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
   const dispatch = useAppDispatch();
   const isPlay = useAppSelector((state) => state.tracks.isPlay);
+  const isShuffle = useAppSelector((state) => state.tracks.isShuffle);
 
   const [isLoop, setIsLoop] = useState(false);
   const [isLoadedTrack, setIsLoadedTrack] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [durationTime, setDurationTime] = useState(0);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     setIsLoadedTrack(false);
   }, [currentTrack]);
+
+  console.log(isLoadedTrack);
 
   if (!currentTrack) return <></>;
 
@@ -41,12 +48,12 @@ export default function Bar() {
 
   const onToggleLoop = () => {
     setIsLoop(!isLoop);
-    console.log(isLoop);
   };
 
   const onTimeUpdate = () => {
     if (audioRef.current) {
-      // console.log(audioRef.current.currentTime);
+      setCurrentTime(audioRef.current.currentTime);
+      setDurationTime(audioRef.current.duration);
     }
   };
 
@@ -61,14 +68,12 @@ export default function Bar() {
   const onChangeVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (audioRef.current) {
       audioRef.current.volume = Number(e.target.value) / 100;
-      console.log(audioRef.current.volume);
     }
   };
 
   const onChangeProgress = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (audioRef.current) {
       const inputTime = Number(e.target.value);
-
       audioRef.current.currentTime = inputTime;
     }
   };
@@ -91,16 +96,20 @@ export default function Bar() {
         ref={audioRef}
         autoPlay
         src={currentTrack?.track_file}
-        loop={true}
+        loop={isLoop}
         onTimeUpdate={onTimeUpdate}
         onLoadedMetadata={onLoadedMetadata}
       ></audio>
       <div className={styles.bar__content}>
+        {isLoadedTrack ? <></> : <div className={styles.bar__loader}>Загрузка трека</div>}
+        <div className={styles.trackPlay__time}>
+          {getTimePanel(currentTime, durationTime)}
+        </div>
         <ProgressBar
-          max={audioRef.current?.duration || 0}
+          max={durationTime}
           step={0.1}
           readOnly={!isLoadedTrack}
-          value={audioRef.current?.currentTime || 0}
+          value={currentTime}
           onChange={onChangeProgress}
         />
         <div className={styles.bar__playerBlock}>
@@ -149,6 +158,7 @@ export default function Bar() {
                 className={classnames(
                   styles.player__btnShuffle,
                   styles.btnIcon,
+                  { [styles.btnIcon_active]: isShuffle },
                 )}
               >
                 <svg className={styles.player__btnShuffleSvg}>
