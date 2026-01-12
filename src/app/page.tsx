@@ -1,9 +1,9 @@
 import './page.css';
-import Navigate from './components/Navigate/Navigate';
+import Navigate from '../components/Navigate/Navigate';
 import styles from './page.module.css';
-import Centerblock from './components/Centerblock/Centerblock';
-import Sidebar from './components/Sidebar/Sidebar';
-import Bar from './components/Bar/Bar';
+import Centerblock from '../components/Centerblock/Centerblock';
+import Sidebar from '../components/Sidebar/Sidebar';
+import Bar from '../components/Bar/Bar';
 
 export default function Home() {
   return (
