@@ -95,6 +95,8 @@
 .player__btnPrevSvg {
   width: 15px;
   height: 14px;
+  fill: inherit;
+  stroke: #d9d9d9;
 }
 
 .player__btnPlay {
@@ -104,12 +106,12 @@
 .player__btnPlaySvg {
   width: 22px;
   height: 20px;
-  fill: #d9d9d9;
+  fill: inherit;
+  stroke: #d9d9d9;
 }
 
 .player__btnNext {
   margin-right: 28px;
-  fill: #a53939;
 }
 
 .player__btnNextSvg {
@@ -128,6 +130,13 @@
   height: 12px;
   fill: transparent;
   stroke: #696969;
+}
+
+.player__btnRepeatSvg_active {
+  width: 18px;
+  height: 12px;
+  fill: transparent;
+  stroke: #ffffff;
 }
 
 .player__btnShuffle {
@@ -330,13 +339,19 @@
   cursor: pointer;
 }
 
+.btn:hover svg {
+  fill: transparent;
+  stroke: rgba(105, 105, 105, 1);
+  cursor: pointer;
+}
+
 .btnIcon:hover svg {
   fill: transparent;
   stroke: #acacac;
   cursor: pointer;
 }
 
-.btnIcon:active svg {
+.btnIcon_active svg {
   fill: transparent;
   stroke: #ffffff;
   cursor: pointer;
@@ -360,4 +375,24 @@
     color: #ad61ff;
     cursor: pointer;
   }
+}
+
+.trackPlay__time {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: right;
+  color: #ffffff;
+  padding-right: 30px;
+}
+
+.bar__loader {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: left;
+  color: #ffffff;
+  padding-left: 30px;
 }
