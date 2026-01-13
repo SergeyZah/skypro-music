@@ -2,6 +2,6 @@ import Link from "next/link";
 
 export default function NotFound() {
     return (
-        <Link href={'/'}>На главную</Link>
+        <Link href={'/music/main'}>На главную</Link>
     )
 }
