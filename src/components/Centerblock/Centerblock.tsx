@@ -16,7 +16,7 @@ export default function Centerblock({playList, namePlaylist, isLoading, error}: 
     <div className={styles.centerblock}>
       <Search />
       <h2 className={styles.centerblock__h2}>{namePlaylist || 'Треки'}</h2>
-      <Filter />
+      <Filter playList={playList}/>
       <Tracklist playList={playList} isLoading={isLoading} error={error}/>
     </div>
   );

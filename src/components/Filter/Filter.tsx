@@ -3,8 +3,13 @@
 import { useState } from 'react';
 import FilterItem from '../FilterItem/FilterItem';
 import styles from './filter.module.css';
+import { TrackType } from '@/sharedTypes/sharedTypes';
 
-export default function Filter() {
+type FilterTypeProp = {
+  playList: TrackType[];
+};
+
+export default function Filter({playList}: FilterTypeProp) {
   const [isFilterVisible, setIsFilterVisible] = useState('');
 
   const filteringAuthors = () => {
@@ -39,7 +44,7 @@ export default function Filter() {
       </div>
       <div onClick={filteringYears} className={styles.filter__button}>году выпуска</div>
       <div onClick={filteringGenre} className={styles.filter__button}>жанру</div>
-      <FilterItem filterType={isFilterVisible} />
+      <FilterItem filterType={isFilterVisible} playList={playList}/>
     </div>
   );
 }
