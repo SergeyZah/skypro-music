@@ -6,15 +6,18 @@ import { TrackType } from '@/sharedTypes/sharedTypes';
 
 type TrackListTypeProp = {
   playList: TrackType[];
+  namePlaylist?: string;
+  isLoading: boolean;
+  error: string;
 };
 
-export default function Centerblock({playList}: TrackListTypeProp) {
+export default function Centerblock({playList, namePlaylist, isLoading, error}: TrackListTypeProp) {
   return (
     <div className={styles.centerblock}>
       <Search />
-      <h2 className={styles.centerblock__h2}>Треки</h2>
+      <h2 className={styles.centerblock__h2}>{namePlaylist || 'Треки'}</h2>
       <Filter />
-      <Tracklist playList={playList}/>
+      <Tracklist playList={playList} isLoading={isLoading} error={error}/>
     </div>
   );
 }

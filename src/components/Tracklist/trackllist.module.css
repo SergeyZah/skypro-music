@@ -18,5 +18,13 @@
   flex-direction: column;
   overflow-y: auto;
   scrollbar-width: none;
-  height: 980px;
+  height: 940px;
+}
+
+.errorContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 18px;
+    color: #fa4f4f;
 }
