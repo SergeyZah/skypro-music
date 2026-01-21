@@ -1,6 +1,8 @@
-/* eslint-disable @next/next/no-img-element */
+'use client';
+
 import styles from './signin.module.css';
 import classNames from 'classnames';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Signin() {
@@ -8,7 +10,7 @@ export default function Signin() {
     <>
       <a href="/music/main">
         <div className={styles.modal__logo}>
-          <img src="/img/logo_modal.png" alt="logo" />
+          <Image width={140} height={21} src="/img/logo_modal.png" alt="logo" />
         </div>
       </a>
       <input

@@ -1,6 +1,5 @@
 'use client';
 
-import { data } from '@/data';
 import styles from './filterItem.module.css';
 import { getUniqueValuesByKey } from '@/utils/helper';
 import classnames from 'classnames';
