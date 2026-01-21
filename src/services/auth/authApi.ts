@@ -35,6 +35,13 @@ type getTokenTypeProp = {
   password: string;
 };
 
+type getTokenReturnType = {
+  data: {
+    access: string,
+    refresh: string
+  }
+};
+
 type refreshTokenTypeProp = {
   refresh: string;
 };
@@ -55,7 +62,7 @@ export const signUp = (data: signUpTypeProp): Promise<signUpReturnType> => {
   })
 };
 
-export const getToken = (data: getTokenTypeProp) => {
+export const getToken = (data: getTokenTypeProp): Promise<getTokenReturnType> => {
   return axios.post(BASE_URL + '/user/token/', data, {
     headers: {
       'content-type': 'application/json',

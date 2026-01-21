@@ -75,7 +75,6 @@ export default function SignUp() {
           setError('Неизвестная ошибка');
         }
       }
-      console.log('error: ', error);
     }
   };
 
