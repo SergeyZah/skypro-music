@@ -8,6 +8,7 @@ import classnames from 'classnames';
 
 export default function Navigate() {
   const [isNavigate, setIsNavigate] = useState(false);
+  const [isAuth, setIsAuth] = useState(() => !!localStorage.getItem('userId'));
 
   const changeVisibleNavigate = () => {
     if (isNavigate) {
@@ -16,6 +17,12 @@ export default function Navigate() {
       setIsNavigate(true);
     }
   };
+
+  const handleExit = () => {
+    localStorage.removeItem('userName')
+    localStorage.removeItem('userId')
+    setIsAuth(false)
+  }
 
   return (
     <nav className={styles.main__nav}>
@@ -52,8 +59,8 @@ export default function Navigate() {
             </Link>
           </li>
           <li className={styles.menu__item}>
-            <Link href="/auth/signin" className={styles.menu__link}>
-              Войти
+            <Link href="/auth/signin" className={styles.menu__link} onClick={handleExit}>
+              {isAuth ? 'Выйти' : 'Войти'}
             </Link>
           </li>
         </ul>

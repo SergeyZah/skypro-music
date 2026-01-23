@@ -46,6 +46,7 @@ export default function Signin() {
       const res = await signIn({ email, password });
 
       localStorage.setItem('userId', String(res.data._id));
+      localStorage.setItem('userName', String(res.data.username));
 
       setIsLoading(false);
 

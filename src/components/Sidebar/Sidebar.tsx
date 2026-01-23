@@ -1,16 +1,27 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './sidebar.module.css';
 
 export default function Sidebar() {
+  const userName = localStorage.getItem('userName');
+
+  const handleExit = () => {
+    localStorage.removeItem('userName')
+    localStorage.removeItem('userId')
+  };
+
   return (
     <div className={styles.main__sidebar}>
       <div className={styles.sidebar__personal}>
-        <p className={styles.sidebar__personalName}>Sergey.Ivanov</p>
+        <p className={styles.sidebar__personalName}>{userName || 'Гость'}</p>
         <div className={styles.sidebar__icon}>
-          <svg>
-            <use xlinkHref="/img/icon/sprite.svg#logout"></use>
-          </svg>
+          <Link className={styles.sidebar__link} href="/auth/signin" onClick={handleExit}>
+            <svg>
+              <use xlinkHref="/img/icon/sprite.svg#logout"></use>
+            </svg>
+          </Link>
         </div>
       </div>
       <div className={styles.sidebar__block}>
