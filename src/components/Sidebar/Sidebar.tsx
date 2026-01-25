@@ -1,22 +1,33 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './sidebar.module.css';
 
 export default function Sidebar() {
+  const userName = localStorage.getItem('userName');
+
+  const handleExit = () => {
+    localStorage.removeItem('userName')
+    localStorage.removeItem('userId')
+  };
+
   return (
     <div className={styles.main__sidebar}>
       <div className={styles.sidebar__personal}>
-        <p className={styles.sidebar__personalName}>Sergey.Ivanov</p>
+        <p className={styles.sidebar__personalName}>{userName || 'Гость'}</p>
         <div className={styles.sidebar__icon}>
-          <svg>
-            <use xlinkHref="/img/icon/sprite.svg#logout"></use>
-          </svg>
+          <Link className={styles.sidebar__link} href="/auth/signin" onClick={handleExit}>
+            <svg>
+              <use xlinkHref="/img/icon/sprite.svg#logout"></use>
+            </svg>
+          </Link>
         </div>
       </div>
       <div className={styles.sidebar__block}>
         <div className={styles.sidebar__list}>
           <div className={styles.sidebar__item}>
-            <Link className={styles.sidebar__link} href="#">
+            <Link className={styles.sidebar__link} href="/music/category/2">
               <Image
                 className={styles.sidebar__img}
                 src="/img/playlist01.png"
@@ -27,7 +38,7 @@ export default function Sidebar() {
             </Link>
           </div>
           <div className={styles.sidebar__item}>
-            <Link className={styles.sidebar__link} href="#">
+            <Link className={styles.sidebar__link} href="/music/category/3">
               <Image
                 className={styles.sidebar__img}
                 src="/img/playlist02.png"
@@ -38,7 +49,7 @@ export default function Sidebar() {
             </Link>
           </div>
           <div className={styles.sidebar__item}>
-            <Link className={styles.sidebar__link} href="#">
+            <Link className={styles.sidebar__link} href="/music/category/4">
               <Image
                 className={styles.sidebar__img}
                 src="/img/playlist03.png"

@@ -1,23 +1,24 @@
 'use client';
 
-import { data } from '@/data';
 import styles from './filterItem.module.css';
 import { getUniqueValuesByKey } from '@/utils/helper';
 import classnames from 'classnames';
+import { TrackType } from '@/sharedTypes/sharedTypes';
 
 type FilterItemProp = {
   filterType: string;
+  playList: TrackType[];
 };
-export default function FilterItem({ filterType }: FilterItemProp) {
+export default function FilterItem({ filterType, playList }: FilterItemProp) {
 
   let filterList: string[] = [];
 
   if (filterType === 'author') {
-    filterList = getUniqueValuesByKey(data, 'author');
+    filterList = getUniqueValuesByKey(playList, 'author');
   } if (filterType === 'year') {
     filterList = ['По умолчанию', 'Сначала новые', 'Сначала старые']
   } if (filterType === 'genre') {
-    filterList = getUniqueValuesByKey(data, 'genre');
+    filterList = getUniqueValuesByKey(playList, 'genre');
   }
 
   return (
