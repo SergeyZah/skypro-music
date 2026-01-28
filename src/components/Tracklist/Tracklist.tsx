@@ -10,16 +10,18 @@ type TrackListTypeProp = {
   error: string;
 };
 
-export default function Tracklist({ playList, isLoading, error }: TrackListTypeProp) {
+export default function Tracklist({
+  playList,
+  isLoading,
+  error,
+}: TrackListTypeProp) {
+  console.log(isLoading);
   return (
     <div className={styles.centerblock__content}>
       <Listheader />
-      {error ?
+      {error ? (
         <div className={styles.errorContainer}>{error}</div>
-        :
-        <div className={styles.errorContainer}>{error}</div>
-      }
-      {isLoading ? (
+      ) : isLoading ? (
         <Loading />
       ) : (
         <div className={styles.content__playlist}>

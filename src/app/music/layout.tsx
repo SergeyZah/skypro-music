@@ -3,6 +3,7 @@ import styles from './layout.module.css';
 import Navigate from '@/components/Navigate/Navigate';
 import Sidebar from '@/components/Sidebar/Sidebar';
 import Bar from '@/components/Bar/Bar';
+import FetchingTracks from '@/components/FetchingTracks/FetchingTracks';
 
 interface AuthLayoutProps {
   children: ReactNode;
@@ -14,6 +15,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
       <div className={styles.wrapper}>
         <div className={styles.container}>
           <main className={styles.main}>
+            <FetchingTracks />
             <Navigate />
             {children}
             <Sidebar />
