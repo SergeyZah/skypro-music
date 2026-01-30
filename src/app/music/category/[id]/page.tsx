@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 export default function CategoryPage() {
   const params = useParams<{ id: string }>();
 
-  const { allTracks } = useAppSelector((state) => state.tracks);
+  const { allTracks, fetchIsLoading, fetchError } = useAppSelector((state) => state.tracks);
 
   const [error, setError] = useState('');
   const [namePlayList, setNamePlayList] = useState('');
@@ -19,33 +19,35 @@ export default function CategoryPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getTracksSelection(params.id)
-      .then((res: PlayListType) => {
-        setNamePlayList(res.name);
+    if (!fetchIsLoading && allTracks.length) {
+      getTracksSelection(params.id)
+        .then((res: PlayListType) => {
+          setNamePlayList(res.name);
 
-        const idItems = res.items;
+          const idItems = res.items;
 
-        const filteredTracks = allTracks.filter((track) =>
-          idItems.includes(track._id),
-        );
+          const filteredTracks = allTracks.filter((track) =>
+            idItems.includes(track._id),
+          );
 
-        setCategoryTracks(filteredTracks);
-      })
-      .catch((error) => {
-        if (error instanceof AxiosError) {
-          if (error.response) {
-            setError(error.response.data);
-          } else if (error.request) {
-            setError('Что-то с интернетом');
-          } else {
-            setError('Неизвестная ошибка');
+          setCategoryTracks(filteredTracks);
+        })
+        .catch((error) => {
+          if (error instanceof AxiosError) {
+            if (error.response) {
+              setError(error.response.data);
+            } else if (error.request) {
+              setError('Что-то с интернетом');
+            } else {
+              setError('Неизвестная ошибка');
+            }
           }
-        }
-      })
-      .finally(() => {
-        setIsLoading(false);
-      })
-  }, [params.id, allTracks]);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+  }, [params.id, allTracks, fetchIsLoading]);
 
   return (
     <>
@@ -53,7 +55,7 @@ export default function CategoryPage() {
         playList={categoryTracks}
         namePlaylist={namePlayList}
         isLoading={isLoading}
-        error={error}
+        error={fetchError || error}
       />
     </>
   );

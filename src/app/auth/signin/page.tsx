@@ -8,8 +8,11 @@ import Link from 'next/link';
 import { ChangeEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AxiosError } from 'axios';
+import { useDispatch } from 'react-redux';
+import { setUsername } from '@/store/features/authSlice';
 
 export default function Signin() {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -45,8 +48,9 @@ export default function Signin() {
     try {
       const res = await signIn({ email, password });
 
+      dispatch(setUsername(res.data.username));
+
       localStorage.setItem('userId', String(res.data._id));
-      localStorage.setItem('userName', String(res.data.username));
 
       setIsLoading(false);
 

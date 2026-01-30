@@ -3,21 +3,29 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './sidebar.module.css';
+import { useAppSelector } from '@/store/store';
+import { useDispatch } from 'react-redux';
+import { setUsername } from '@/store/features/authSlice';
 
 export default function Sidebar() {
-  const userName = localStorage.getItem('userName');
+  const dispatch = useDispatch();
+  const { username } = useAppSelector((state) => state.auth);
 
   const handleExit = () => {
-    localStorage.removeItem('userName')
-    localStorage.removeItem('userId')
+    dispatch(setUsername(''));
+    localStorage.removeItem('userId');
   };
 
   return (
     <div className={styles.main__sidebar}>
       <div className={styles.sidebar__personal}>
-        <p className={styles.sidebar__personalName}>{userName || 'Гость'}</p>
+        <p className={styles.sidebar__personalName}>{username || 'Гость'}</p>
         <div className={styles.sidebar__icon}>
-          <Link className={styles.sidebar__link} href="/auth/signin" onClick={handleExit}>
+          <Link
+            className={styles.sidebar__link}
+            href="/auth/signin"
+            onClick={handleExit}
+          >
             <svg>
               <use xlinkHref="/img/icon/sprite.svg#logout"></use>
             </svg>

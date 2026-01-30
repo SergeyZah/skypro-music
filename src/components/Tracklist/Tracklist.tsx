@@ -15,7 +15,6 @@ export default function Tracklist({
   isLoading,
   error,
 }: TrackListTypeProp) {
-  console.log(isLoading);
   return (
     <div className={styles.centerblock__content}>
       <Listheader />
