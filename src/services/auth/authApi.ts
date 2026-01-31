@@ -36,10 +36,8 @@ type getTokenTypeProp = {
 };
 
 type getTokenReturnType = {
-  data: {
     refresh: string;
     access: string;
-  };
 };
 
 type refreshTokenTypeProp = {
@@ -66,7 +64,7 @@ export const signUp = (data: signUpTypeProp): Promise<signUpReturnType> => {
   });
 };
 
-export const getToken = (
+export const getTokens = (
   data: getTokenTypeProp,
 ): Promise<getTokenReturnType> => {
   return axios

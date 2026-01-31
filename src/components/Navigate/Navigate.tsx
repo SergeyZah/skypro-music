@@ -5,10 +5,17 @@ import Link from 'next/link';
 import styles from './navigate.module.css';
 import { useState } from 'react';
 import classnames from 'classnames';
+import { useDispatch } from 'react-redux';
+import { clearUser } from '@/store/features/authSlice';
+import { useRouter } from 'next/navigation';
 
 export default function Navigate() {
+  const dispatch = useDispatch();
+  const router = useRouter();
   const [isNavigate, setIsNavigate] = useState(false);
-  const [isAuth, setIsAuth] = useState(() => !!localStorage.getItem('userId'));
+  const [isAuth, setIsAuth] = useState(
+    () => !!localStorage.getItem('username'),
+  );
 
   const changeVisibleNavigate = () => {
     if (isNavigate) {
@@ -19,10 +26,10 @@ export default function Navigate() {
   };
 
   const handleExit = () => {
-    localStorage.removeItem('userName')
-    localStorage.removeItem('userId')
-    setIsAuth(false)
-  }
+    dispatch(clearUser());
+    setIsAuth(false);
+    router.push('/auth/signin');
+  };
 
   return (
     <nav className={styles.main__nav}>
@@ -59,9 +66,12 @@ export default function Navigate() {
             </Link>
           </li>
           <li className={styles.menu__item}>
-            <Link href="/auth/signin" className={styles.menu__link} onClick={handleExit}>
+            <div
+              className={styles.menu__link}
+              onClick={handleExit}
+            >
               {isAuth ? 'Выйти' : 'Войти'}
-            </Link>
+            </div>
           </li>
         </ul>
       </div>

@@ -5,15 +5,18 @@ import Link from 'next/link';
 import styles from './sidebar.module.css';
 import { useAppSelector } from '@/store/store';
 import { useDispatch } from 'react-redux';
-import { setUsername } from '@/store/features/authSlice';
+import { clearUser } from '@/store/features/authSlice';
+import { useRouter } from 'next/navigation';
 
 export default function Sidebar() {
   const dispatch = useDispatch();
-  const { username } = useAppSelector((state) => state.auth);
+  const router = useRouter();
+  const username = useAppSelector((state) => state.auth.username);
 
   const handleExit = () => {
-    dispatch(setUsername(''));
+    dispatch(clearUser());
     localStorage.removeItem('userId');
+    router.push('/auth/signin')
   };
 
   return (
@@ -21,15 +24,14 @@ export default function Sidebar() {
       <div className={styles.sidebar__personal}>
         <p className={styles.sidebar__personalName}>{username || 'Гость'}</p>
         <div className={styles.sidebar__icon}>
-          <Link
+          <div
             className={styles.sidebar__link}
-            href="/auth/signin"
             onClick={handleExit}
           >
             <svg>
               <use xlinkHref="/img/icon/sprite.svg#logout"></use>
             </svg>
-          </Link>
+          </div>
         </div>
       </div>
       <div className={styles.sidebar__block}>

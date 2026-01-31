@@ -1,6 +1,6 @@
 'use client';
 
-import { getToken, signIn } from '@/services/auth/authApi';
+import { getTokens, signIn } from '@/services/auth/authApi';
 import styles from './signin.module.css';
 import classNames from 'classnames';
 import Image from 'next/image';
@@ -9,7 +9,11 @@ import { ChangeEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AxiosError } from 'axios';
 import { useDispatch } from 'react-redux';
-import { setUsername } from '@/store/features/authSlice';
+import {
+  setAccessToken,
+  setRefreshToken,
+  setUsername,
+} from '@/store/features/authSlice';
 
 export default function Signin() {
   const dispatch = useDispatch();
@@ -28,11 +32,8 @@ export default function Signin() {
     setPassword(e.target.value);
   };
 
-  const onSubmit = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ) => {
+  const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-
     setError('');
 
     if (!email.trim() && !password.trim()) {
@@ -45,45 +46,33 @@ export default function Signin() {
 
     setIsLoading(true);
 
-    try {
-      const res = await signIn({ email, password });
-
-      dispatch(setUsername(res.data.username));
-
-      localStorage.setItem('userId', String(res.data._id));
-
-      setIsLoading(false);
-
-      router.push('/music/main');
-    } catch (error) {
-      setIsLoading(false);
-      if (error instanceof AxiosError) {
-        if (error.response) {
-          setError(error.response.data.message);
-        } else if (error.request) {
-          setError('Отсутствует интернет. Попробуйте позже');
-        } else {
-          setError('Неизвестная ошибка');
-        }
-      }
-      console.log('error: ', error);
-    }
-
-    getToken({ email, password })
+    signIn({ email, password })
       .then((res) => {
-        localStorage.setItem('access', res.data.access);
-        localStorage.setItem('refresh', res.data.refresh);
+        dispatch(setUsername(res.data.username));
+        localStorage.setItem('userId', String(res.data._id));
+
+        return getTokens({ email, password })
+      })
+      .then((response) => {
+        dispatch(setAccessToken(response.access));
+        dispatch(setRefreshToken(response.refresh));
+        router.push('/music/main');
       })
       .catch((error) => {
+        setIsLoading(false);
         if (error instanceof AxiosError) {
           if (error.response) {
             setError(error.response.data.message);
           } else if (error.request) {
-            setError('Неполадки с интернетом');
+            setError('Отсутствует интернет. Попробуйте позже');
           } else {
-            setError('Неизвестная ошибка с получением токена');
+            setError('Неизвестная ошибка');
           }
         }
+        console.log('error: ', error);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
