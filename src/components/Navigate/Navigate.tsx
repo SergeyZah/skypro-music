@@ -27,8 +27,9 @@ export default function Navigate() {
 
   const handleExit = () => {
     dispatch(clearUser());
-    setIsAuth(false);
-    router.push('/auth/signin');
+    console.log(isAuth);
+    setIsAuth(false)
+    router.push(`${isAuth ? '/music/main' : '/auth/signin'}`);
   };
 
   return (
@@ -60,16 +61,17 @@ export default function Navigate() {
               Главное
             </Link>
           </li>
+          {isAuth ? (
+            <li className={styles.menu__item}>
+              <Link href="/music/favorite" className={styles.menu__link}>
+                Мои треки
+              </Link>
+            </li>
+          ) : (
+            <></>
+          )}
           <li className={styles.menu__item}>
-            <Link href="/music/favorite" className={styles.menu__link}>
-              Мои треки
-            </Link>
-          </li>
-          <li className={styles.menu__item}>
-            <div
-              className={styles.menu__link}
-              onClick={handleExit}
-            >
+            <div className={styles.menu__link} onClick={handleExit}>
               {isAuth ? 'Выйти' : 'Войти'}
             </div>
           </li>
