@@ -61,7 +61,7 @@ export default function Navigate() {
             </Link>
           </li>
           <li className={styles.menu__item}>
-            <Link href="#" className={styles.menu__link}>
+            <Link href="/music/favorite" className={styles.menu__link}>
               Мои треки
             </Link>
           </li>
