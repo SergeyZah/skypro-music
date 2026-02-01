@@ -83,9 +83,11 @@ const trackSlice = createSlice({
     },
     addLikedTracks: (state, action: PayloadAction<TrackType>) => {
       state.favoriteTracks = [...state.favoriteTracks, action.payload];
+      localStorage.setItem('favoriteTracks', JSON.stringify(state.favoriteTracks))
     },
     removeLikedTracks: (state, action: PayloadAction<TrackType>) => {
       state.favoriteTracks = state.favoriteTracks.filter((track) => track._id !== action.payload._id);
+      localStorage.setItem('favoriteTracks', JSON.stringify(state.favoriteTracks))
     },
     setFetchError: (state, action: PayloadAction<string>) => {
       state.fetchError = action.payload;

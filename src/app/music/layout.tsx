@@ -7,6 +7,7 @@ import Sidebar from '@/components/Sidebar/Sidebar';
 import Bar from '@/components/Bar/Bar';
 import FetchingTracks from '@/components/FetchingTracks/FetchingTracks';
 import { useInitAuth } from '@/hooks/useInitAuth';
+import { useInitFavoriteTracks } from '@/hooks/useInitFavoriteTracks';
 
 interface AuthLayoutProps {
   children: ReactNode;
@@ -14,6 +15,7 @@ interface AuthLayoutProps {
 
 export default function AuthLayout({ children }: AuthLayoutProps) {
   useInitAuth()
+  useInitFavoriteTracks()
   return (
     <>
       <div className={styles.wrapper}>
