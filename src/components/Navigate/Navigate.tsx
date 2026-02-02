@@ -8,14 +8,16 @@ import classnames from 'classnames';
 import { useDispatch } from 'react-redux';
 import { clearUser } from '@/store/features/authSlice';
 import { useRouter } from 'next/navigation';
+import { useAppSelector } from '@/store/store';
 
 export default function Navigate() {
   const dispatch = useDispatch();
   const router = useRouter();
+
+  const { username } = useAppSelector((state) => state.auth);
+
   const [isNavigate, setIsNavigate] = useState(false);
-  const [isAuth, setIsAuth] = useState(
-    () => !!localStorage.getItem('username'),
-  );
+  const [isAuth, setIsAuth] = useState(!!username);
 
   const changeVisibleNavigate = () => {
     if (isNavigate) {
@@ -28,7 +30,7 @@ export default function Navigate() {
   const handleExit = () => {
     dispatch(clearUser());
     console.log(isAuth);
-    setIsAuth(false)
+    setIsAuth(false);
     router.push(`${isAuth ? '/music/main' : '/auth/signin'}`);
   };
 
