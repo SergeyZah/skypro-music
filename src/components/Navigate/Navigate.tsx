@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './navigate.module.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import classnames from 'classnames';
 import { useDispatch } from 'react-redux';
 import { clearUser } from '@/store/features/authSlice';
@@ -14,10 +15,18 @@ export default function Navigate() {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const { username } = useAppSelector((state) => state.auth);
-
   const [isNavigate, setIsNavigate] = useState(false);
-  const [isAuth, setIsAuth] = useState(!!username);
+  const {access} = useAppSelector((state) => state.auth);
+  const [isAuth, setIsAuth] = useState(false);
+
+  useEffect(() => {
+    if (!access) {
+      setIsAuth(false);
+      return;
+    } else if (access) {
+      setIsAuth(true);
+    }
+  }, [access]);
 
   const changeVisibleNavigate = () => {
     if (isNavigate) {
@@ -29,7 +38,6 @@ export default function Navigate() {
 
   const handleExit = () => {
     dispatch(clearUser());
-    console.log(isAuth);
     setIsAuth(false);
     router.push(`${isAuth ? '/music/main' : '/auth/signin'}`);
   };

@@ -16,7 +16,7 @@ export default function Sidebar() {
   const handleExit = () => {
     dispatch(clearUser());
     localStorage.removeItem('userId');
-    router.push('/auth/signin')
+    router.push('/music/main')
   };
 
   return (

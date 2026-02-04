@@ -7,6 +7,7 @@ export const useInitFavoriteTracks = () => {
 
   useEffect(() => {
     const favoriteTracks = JSON.parse(localStorage.getItem('favoriteTracks') || '{}');
+    console.log(favoriteTracks);
 
     dispatch(setFavoriteTracks(favoriteTracks));
   }, [dispatch]);
