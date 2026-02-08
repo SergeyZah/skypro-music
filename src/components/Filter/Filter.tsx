@@ -14,6 +14,8 @@ type FilterTypeProp = {
 
 export default function Filter({ playList }: FilterTypeProp) {
   const [activeFilter, setActiveFilter] = useState<null | string>(null);
+  const [isActiveAuthorId, setIsActiveAuthorId] = useState<string[]>([]);
+  const [isActiveGenreId, setIsActiveGenreId] = useState<string[]>([]);
   const dispatch = useAppDispatch();
 
   const changeActiveFilter = (filterType: string) => {
@@ -28,12 +30,22 @@ export default function Filter({ playList }: FilterTypeProp) {
   const uniqGenres = getUniqueValuesByKey(playList, 'genre');
   const years = ['Сначала новые', 'Сначала старые', 'По умолчанию'];
 
-  const onSelectAuthor = (author: string) => {
+  const onSelectAuthor = (author: string, id: string) => {
     dispatch(setFIlterAuthors(author));
+    if (isActiveAuthorId.includes(id)) {
+      setIsActiveAuthorId(isActiveAuthorId.filter((n) => n !== id));
+    } else {
+      setIsActiveAuthorId([...isActiveAuthorId, id]);
+    }
   };
 
-  const onSelectGenres = (genre: string) => {
+  const onSelectGenres = (genre: string, id: string) => {
     dispatch(setFIlterGenres(genre));
+    if (isActiveGenreId.includes(id)) {
+      setIsActiveGenreId(isActiveGenreId.filter((n) => n !== id));
+    } else {
+      setIsActiveGenreId([...isActiveGenreId, id]);
+    }
   };
 
   return (
@@ -46,6 +58,7 @@ export default function Filter({ playList }: FilterTypeProp) {
         titleFilter="исполнителю"
         changeActiveFilter={changeActiveFilter}
         onSelect={onSelectAuthor}
+        isActiveFilterId={isActiveAuthorId}
       />
       <FilterItem
         filterType={'year'}
@@ -54,6 +67,7 @@ export default function Filter({ playList }: FilterTypeProp) {
         titleFilter="году выпуска"
         changeActiveFilter={changeActiveFilter}
         onSelect={onSelectAuthor}
+        isActiveFilterId={isActiveAuthorId}
       />
       <FilterItem
         filterType={'genre'}
@@ -62,6 +76,7 @@ export default function Filter({ playList }: FilterTypeProp) {
         titleFilter="жанру"
         changeActiveFilter={changeActiveFilter}
         onSelect={onSelectGenres}
+        isActiveFilterId={isActiveGenreId}
       />
     </div>
   );

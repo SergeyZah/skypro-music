@@ -9,7 +9,8 @@ type FilterItemProp = {
   list: string[];
   titleFilter: string;
   changeActiveFilter: (n: string) => void;
-  onSelect: (value: string) => void;
+  onSelect: (value: string, id: string) => void;
+  isActiveFilterId: null | string[];
 };
 export default function FilterItem({
   filterType,
@@ -18,6 +19,7 @@ export default function FilterItem({
   titleFilter,
   changeActiveFilter,
   onSelect,
+  isActiveFilterId
 }: FilterItemProp) {
   return (
     <div
@@ -34,8 +36,10 @@ export default function FilterItem({
               return (
                 <div
                   key={id}
-                  className={styles.filter__el}
-                  onClick={() => onSelect(el)}
+                  className={classnames(styles.filter__el, {
+        [styles.el__active]: isActiveFilterId?.includes(String(id)),
+      })}
+                  onClick={() => onSelect(el, String(id))}
                 >
                   {el}
                 </div>

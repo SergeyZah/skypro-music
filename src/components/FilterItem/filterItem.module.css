@@ -44,6 +44,12 @@
   }
 }
 
+.el__active {
+  cursor: pointer;
+  color: rgba(182, 114, 255, 1);
+  text-decoration: underline;
+}
+
 .filter__button {
   /*composes: btn-text from '/src/UI/Button/button.module.css';*/
   font-style: normal;

@@ -22,13 +22,13 @@ export default function Tracklist({
         <div className={styles.errorContainer}>{error}</div>
       ) : isLoading ? (
         <Loading />
-      ) : (
-        <div className={styles.content__playlist}>
+      ) : ( playList.length ?
+        (<div className={styles.content__playlist}>
           {playList.map((track) => {
             return <Track key={track._id} track={track} playList={playList} />;
           })}
         </div>
-      )}
+      ): (<div className={styles.none__tracks}>Нет треков</div>))}
     </div>
   );
 }

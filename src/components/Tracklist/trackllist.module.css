@@ -28,3 +28,12 @@
     font-size: 18px;
     color: #fa4f4f;
 }
+
+.none__tracks {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+  color: #ffffff;
+  padding-top: 20px;
+}

@@ -12,7 +12,7 @@ export default function Home() {
   const [playlist, setPlaylist] = useState<TrackType[]>([]);
 
   useEffect(() => {
-    const currentPlaylist = filters.authors.length ? filteredTracks : allTracks;
+    const currentPlaylist = filters.authors.length || filters.genres.length ? filteredTracks : allTracks;
     setPlaylist(currentPlaylist);
   }, [filteredTracks, allTracks, filters]);
 
