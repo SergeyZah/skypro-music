@@ -11,6 +11,13 @@ type initialStateType = {
   favoriteTracks: TrackType[];
   fetchError: string;
   fetchIsLoading: boolean;
+  pagePlaylist: TrackType[];
+  filteredTracks: TrackType[];
+  filters: {
+    authors: string[];
+    genres: string[];
+    years: string;
+  };
 };
 
 const initialState: initialStateType = {
@@ -23,6 +30,13 @@ const initialState: initialStateType = {
   favoriteTracks: [],
   fetchError: '',
   fetchIsLoading: true,
+  pagePlaylist: [],
+  filteredTracks: [],
+  filters: {
+    authors: [],
+    genres: [],
+    years: 'По умолчанию',
+  },
 };
 
 const trackSlice = createSlice({
@@ -83,17 +97,75 @@ const trackSlice = createSlice({
     },
     addLikedTracks: (state, action: PayloadAction<TrackType>) => {
       state.favoriteTracks = [...state.favoriteTracks, action.payload];
-      localStorage.setItem('favoriteTracks', JSON.stringify(state.favoriteTracks))
+      localStorage.setItem(
+        'favoriteTracks',
+        JSON.stringify(state.favoriteTracks),
+      );
     },
     removeLikedTracks: (state, action: PayloadAction<TrackType>) => {
-      state.favoriteTracks = state.favoriteTracks.filter((track) => track._id !== action.payload._id);
-      localStorage.setItem('favoriteTracks', JSON.stringify(state.favoriteTracks))
+      state.favoriteTracks = state.favoriteTracks.filter(
+        (track) => track._id !== action.payload._id,
+      );
+      localStorage.setItem(
+        'favoriteTracks',
+        JSON.stringify(state.favoriteTracks),
+      );
     },
     setFetchError: (state, action: PayloadAction<string>) => {
       state.fetchError = action.payload;
     },
     setFetchIsLoading: (state, action: PayloadAction<boolean>) => {
       state.fetchIsLoading = action.payload;
+    },
+    setPagePlaylist: (state, action) => {
+      state.pagePlaylist = action.payload;
+    },
+    setFIlterAuthors: (state, action: PayloadAction<string>) => {
+      const author = action.payload;
+      let filteredPlayList = state.pagePlaylist;
+      if (state.filters.authors.includes(author)) {
+        state.filters.authors = state.filters.authors.filter((el) => {
+          return el != author;
+        });
+      } else {
+        state.filters.authors = [...state.filters.authors, author];
+      }
+
+      if (state.filters.authors.length) {
+        filteredPlayList = filteredPlayList.filter((track) => {
+          return state.filters.authors.includes(track.author);
+        });
+      }
+      if (state.filters.genres.length) {
+        filteredPlayList = filteredPlayList.filter((track) => {
+          return state.filters.genres.some((el) => track.genre.includes(el));
+        });
+      }
+
+      state.filteredTracks = filteredPlayList;
+    },
+    setFIlterGenres: (state, action: PayloadAction<string>) => {
+      const genres = action.payload;
+      let filteredPlayList = state.pagePlaylist;
+      if (state.filters.genres.includes(genres)) {
+        state.filters.genres = state.filters.genres.filter((el) => {
+          return el != genres;
+        });
+      } else {
+        state.filters.genres = [...state.filters.genres, genres];
+      }
+      if (state.filters.authors.length) {
+        filteredPlayList = filteredPlayList.filter((track) => {
+          return state.filters.authors.includes(track.author);
+        });
+      }
+      if (state.filters.genres.length) {
+        filteredPlayList = filteredPlayList.filter((track) => {
+          return state.filters.genres.some((el) => track.genre.includes(el));
+        });
+      }
+
+      state.filteredTracks = filteredPlayList;
     },
   },
 });
@@ -111,5 +183,8 @@ export const {
   addLikedTracks,
   setFavoriteTracks,
   removeLikedTracks,
+  setFIlterAuthors,
+  setPagePlaylist,
+  setFIlterGenres,
 } = trackSlice.actions;
 export const trackSliceReducer = trackSlice.reducer;

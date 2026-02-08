@@ -1,26 +1,13 @@
-.filter__modal {
-  display: none;
+.filter__wrapper {
   position: absolute;
   border-radius: 12px;
   background: rgba(49, 49, 49, 1);
+  top: 50px;
+  left: -3px;
 }
 
-.active_author {
+.active {
   display: block;
-  top: 50px;
-  left: 100px;
-}
-
-.active_year {
-  display: block;
-  top: 50px;
-  left: 267px;
-}
-
-.active_genre {
-  display: block;
-  top: 50px;
-  left: 430px;
 }
 
 .filter__list {
@@ -54,5 +41,34 @@
 
   &:hover {
     color: rgba(182, 114, 255, 1);
+  }
+}
+
+.filter__button {
+  /*composes: btn-text from '/src/UI/Button/button.module.css';*/
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  border: 1px solid #ffffff;
+  border-radius: 60px;
+  padding: 6px 20px;
+  color: white;
+  cursor: pointer;
+  margin-right: 10px;
+  position: relative;
+
+  &:hover {
+    box-sizing: border-box;
+    border: 1px solid rgba(217, 182, 255, 1);
+    border-radius: 60px;
+    color: rgba(217, 182, 255, 1);
+  }
+
+  &:active {
+    box-sizing: border-box;
+    border: 1px solid rgba(173, 97, 255, 1);
+    border-radius: 60px;
+    color: rgba(173, 97, 255, 1);
   }
 }
