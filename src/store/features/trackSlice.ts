@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TrackType } from '@/sharedTypes/sharedTypes';
+import { applyFilters } from '@/utils/applyFilters';
 
 export type initialStateType = {
   currentTrack: TrackType | null;
@@ -122,7 +123,6 @@ const trackSlice = createSlice({
     },
     setFIlterAuthors: (state, action: PayloadAction<string>) => {
       const author = action.payload;
-      let filteredPlayList = state.pagePlaylist;
       if (state.filters.authors.includes(author)) {
         state.filters.authors = state.filters.authors.filter((el) => {
           return el != author;
@@ -131,22 +131,10 @@ const trackSlice = createSlice({
         state.filters.authors = [...state.filters.authors, author];
       }
 
-      if (state.filters.authors.length) {
-        filteredPlayList = filteredPlayList.filter((track) => {
-          return state.filters.authors.includes(track.author);
-        });
-      }
-      if (state.filters.genres.length) {
-        filteredPlayList = filteredPlayList.filter((track) => {
-          return state.filters.genres.some((el) => track.genre.includes(el));
-        });
-      }
-
-      state.filteredTracks = filteredPlayList;
+      state.filteredTracks = applyFilters(state);
     },
     setFIlterGenres: (state, action: PayloadAction<string>) => {
       const genres = action.payload;
-      let filteredPlayList = state.pagePlaylist;
       if (state.filters.genres.includes(genres)) {
         state.filters.genres = state.filters.genres.filter((el) => {
           return el != genres;
@@ -154,18 +142,8 @@ const trackSlice = createSlice({
       } else {
         state.filters.genres = [...state.filters.genres, genres];
       }
-      if (state.filters.authors.length) {
-        filteredPlayList = filteredPlayList.filter((track) => {
-          return state.filters.authors.includes(track.author);
-        });
-      }
-      if (state.filters.genres.length) {
-        filteredPlayList = filteredPlayList.filter((track) => {
-          return state.filters.genres.some((el) => track.genre.includes(el));
-        });
-      }
 
-      state.filteredTracks = filteredPlayList;
+      state.filteredTracks = applyFilters(state);
     },
   },
 });
