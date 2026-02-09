@@ -13,7 +13,7 @@ import {
   toggleShuffle,
 } from '@/store/features/trackSlice';
 import ProgressBar from '../ProgressBar/ProgressBar';
-import { getTimePanel } from '@/utils/helpers';
+import { getTimePanel } from '@/utils/helper';
 import { useLikeTrack } from '@/hooks/useLikeTracks';
 
 export default function Bar() {

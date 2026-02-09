@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import styles from './track.module.css';
-import { formatTime } from '@/utils/helpers';
+import { formatTime } from '@/utils/helper';
 import { useAppDispatch, useAppSelector } from '@/store/store';
 import {
   setCurrentPlayList,

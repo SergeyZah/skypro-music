@@ -1,4 +1,4 @@
-import { formatTime } from './helpers';
+import { formatTime } from './helper';
 
 describe('formatTime', () => {
   it('Добавление нуля, если секунд < 10', () => {

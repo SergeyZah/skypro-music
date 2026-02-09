@@ -5,7 +5,7 @@ import FilterItem from '../FilterItem/FilterItem';
 import styles from './filter.module.css';
 import { TrackType } from '@/sharedTypes/sharedTypes';
 import { useAppDispatch } from '@/store/store';
-import { getUniqueValuesByKey } from '@/utils/helpers';
+import { getUniqueValuesByKey } from '@/utils/helper';
 import { setFIlterAuthors, setFIlterGenres } from '@/store/features/trackSlice';
 
 type FilterTypeProp = {
