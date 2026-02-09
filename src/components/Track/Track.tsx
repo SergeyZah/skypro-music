@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import styles from './track.module.css';
-import { formatTime } from '@/utils/helper';
+import { formatTime } from '@/utils/helpers';
 import { useAppDispatch, useAppSelector } from '@/store/store';
 import {
   setCurrentPlayList,
@@ -31,9 +31,9 @@ export default function Track({ track, playList }: TrackTypeProp) {
   };
 
   const onClickLike = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
-    e.stopPropagation()
-    toggleLike()
-  }
+    e.stopPropagation();
+    toggleLike();
+  };
 
   return (
     <div
@@ -87,7 +87,9 @@ export default function Track({ track, playList }: TrackTypeProp) {
         </div>
         <div className="track__time">
           <svg className={styles.track__timeSvg} onClick={onClickLike}>
-            <use xlinkHref={`/img/icon/sprite.svg#${isLike ? 'icon-like' : 'icon-dislike'}`}></use>
+            <use
+              xlinkHref={`/img/icon/sprite.svg#${isLike ? 'icon-like' : 'icon-dislike'}`}
+            ></use>
           </svg>
           <span className={styles.track__timeText}>
             {formatTime(track.duration_in_seconds)}

@@ -13,7 +13,7 @@ import {
   toggleShuffle,
 } from '@/store/features/trackSlice';
 import ProgressBar from '../ProgressBar/ProgressBar';
-import { getTimePanel } from '@/utils/helper';
+import { getTimePanel } from '@/utils/helpers';
 import { useLikeTrack } from '@/hooks/useLikeTracks';
 
 export default function Bar() {
@@ -103,9 +103,9 @@ export default function Bar() {
   };
 
   const onClickLike = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
-    e.stopPropagation()
-    toggleLike()
-  }
+    e.stopPropagation();
+    toggleLike();
+  };
 
   return (
     <div className={styles.bar}>
@@ -215,8 +215,13 @@ export default function Bar() {
                     styles.btnIcon,
                   )}
                 >
-                  <svg className={styles.trackPlay__likeSvg} onClick={onClickLike}>
-                    <use xlinkHref={`/img/icon/sprite.svg#${isLike ? 'icon-like' : 'icon-dislike'}`}></use>
+                  <svg
+                    className={styles.trackPlay__likeSvg}
+                    onClick={onClickLike}
+                  >
+                    <use
+                      xlinkHref={`/img/icon/sprite.svg#${isLike ? 'icon-like' : 'icon-dislike'}`}
+                    ></use>
                   </svg>
                 </div>
                 <div
