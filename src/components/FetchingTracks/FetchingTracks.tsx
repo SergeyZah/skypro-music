@@ -30,6 +30,7 @@ export default function FetchingTracks() {
               dispatch(setFetchError(error.response.data));
             } else if (error.request) {
               dispatch(setFetchError('Произошла ошибка. Попробуйте позже'));
+              console.log(error)
             } else {
               dispatch(setFetchError('Неизвестная ошибка'));
             }
@@ -38,6 +39,6 @@ export default function FetchingTracks() {
           dispatch(setFetchIsLoading(false));
         })
     }
-  });
+  }, []);
   return <></>
 }

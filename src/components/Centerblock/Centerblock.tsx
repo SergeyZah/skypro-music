@@ -21,7 +21,7 @@ export default function Centerblock({playList, namePlaylist, isLoading, error, p
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(setPagePlaylist(pagePlaylist))
-  })
+  }, [pagePlaylist, dispatch])
   return (
     <div className={styles.centerblock}>
       <Search />
