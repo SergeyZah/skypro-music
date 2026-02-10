@@ -1,14 +1,32 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './navigate.module.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import classnames from 'classnames';
+import { useDispatch } from 'react-redux';
+import { clearUser } from '@/store/features/authSlice';
+import { useRouter } from 'next/navigation';
+import { useAppSelector } from '@/store/store';
 
 export default function Navigate() {
+  const dispatch = useDispatch();
+  const router = useRouter();
+
   const [isNavigate, setIsNavigate] = useState(false);
-  const [isAuth, setIsAuth] = useState(() => !!localStorage.getItem('userId'));
+  const {access} = useAppSelector((state) => state.auth);
+  const [isAuth, setIsAuth] = useState(false);
+
+  useEffect(() => {
+    if (!access) {
+      setIsAuth(false);
+      return;
+    } else if (access) {
+      setIsAuth(true);
+    }
+  }, [access]);
 
   const changeVisibleNavigate = () => {
     if (isNavigate) {
@@ -19,10 +37,10 @@ export default function Navigate() {
   };
 
   const handleExit = () => {
-    localStorage.removeItem('userName')
-    localStorage.removeItem('userId')
-    setIsAuth(false)
-  }
+    dispatch(clearUser());
+    setIsAuth(false);
+    router.push(`${isAuth ? '/music/main' : '/auth/signin'}`);
+  };
 
   return (
     <nav className={styles.main__nav}>
@@ -53,15 +71,19 @@ export default function Navigate() {
               Главное
             </Link>
           </li>
+          {isAuth ? (
+            <li className={styles.menu__item}>
+              <Link href="/music/favorite" className={styles.menu__link}>
+                Мои треки
+              </Link>
+            </li>
+          ) : (
+            <></>
+          )}
           <li className={styles.menu__item}>
-            <Link href="#" className={styles.menu__link}>
-              Мои треки
-            </Link>
-          </li>
-          <li className={styles.menu__item}>
-            <Link href="/auth/signin" className={styles.menu__link} onClick={handleExit}>
+            <div className={styles.menu__link} onClick={handleExit}>
               {isAuth ? 'Выйти' : 'Войти'}
-            </Link>
+            </div>
           </li>
         </ul>
       </div>

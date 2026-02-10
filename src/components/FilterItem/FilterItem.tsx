@@ -1,45 +1,53 @@
 'use client';
 
 import styles from './filterItem.module.css';
-import { getUniqueValuesByKey } from '@/utils/helper';
 import classnames from 'classnames';
-import { TrackType } from '@/sharedTypes/sharedTypes';
 
 type FilterItemProp = {
   filterType: string;
-  playList: TrackType[];
+  activeFilter: null | string;
+  list: string[];
+  titleFilter: string;
+  changeActiveFilter: (n: string) => void;
+  onSelect: (value: string, id: string) => void;
+  isActiveFilterId: null | string[];
 };
-export default function FilterItem({ filterType, playList }: FilterItemProp) {
-
-  let filterList: string[] = [];
-
-  if (filterType === 'author') {
-    filterList = getUniqueValuesByKey(playList, 'author');
-  } if (filterType === 'year') {
-    filterList = ['По умолчанию', 'Сначала новые', 'Сначала старые']
-  } if (filterType === 'genre') {
-    filterList = getUniqueValuesByKey(playList, 'genre');
-  }
-
+export default function FilterItem({
+  filterType,
+  list,
+  activeFilter,
+  titleFilter,
+  changeActiveFilter,
+  onSelect,
+  isActiveFilterId
+}: FilterItemProp) {
   return (
     <div
-      className={classnames(styles.filter__modal, {
-        [styles.active_author]: filterType === 'author',
-      }, {
-        [styles.active_year]: filterType === 'year',
-      }, {
-        [styles.active_genre]: filterType === 'genre',
+      className={classnames(styles.filter__button, {
+        [styles.active_author]: activeFilter === filterType,
       })}
+      onClick={() => changeActiveFilter(filterType)}
     >
-      <div className={styles.filter__list}>
-        {filterList.map((el, id) => {
-          return (
-            <div key={id} className={styles.filter__el}>
-              {el}
-            </div>
-          );
-        })}
-      </div>
+      {titleFilter}
+      {activeFilter === filterType && (
+        <div className={styles.filter__wrapper}>
+          <div className={styles.filter__list}>
+            {list.map((el, id) => {
+              return (
+                <div
+                  key={id}
+                  className={classnames(styles.filter__el, {
+        [styles.el__active]: isActiveFilterId?.includes(String(id)),
+      })}
+                  onClick={() => onSelect(el, String(id))}
+                >
+                  {el}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

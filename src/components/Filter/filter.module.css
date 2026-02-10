@@ -22,33 +22,6 @@
   color: white;
 }
 
-.filter__button {
-  /*composes: btn-text from '/src/UI/Button/button.module.css';*/
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
-  border: 1px solid #ffffff;
-  border-radius: 60px;
-  padding: 6px 20px;
-  color: white;
-  cursor: pointer;
-
-  &:hover {
-    box-sizing: border-box;
-    border: 1px solid rgba(217, 182, 255, 1);
-    border-radius: 60px;
-    color: rgba(217, 182, 255, 1);
-  }
-
-  &:active {
-    box-sizing: border-box;
-    border: 1px solid rgba(173, 97, 255, 1);
-    border-radius: 60px;
-    color: rgba(173, 97, 255, 1);
-  }
-}
-
 .filter__button:not(:last-child) {
   margin-right: 10px;
 }

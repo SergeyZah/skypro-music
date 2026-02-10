@@ -8,10 +8,10 @@ type signInTypeProp = {
 
 type signInReturnType = {
   data: {
-    email: string,
-    username: string,
-    _id: number | string
-  }
+    email: string;
+    username: string;
+    _id: number | string;
+  };
 };
 
 type signUpTypeProp = {
@@ -21,13 +21,13 @@ type signUpTypeProp = {
 };
 
 type signUpReturnType = {
-  message: string,
+  message: string;
   result: {
-    username: string,
-    email: string,
-    _id: number | string
-  },
-  success: true
+    username: string;
+    email: string;
+    _id: number | string;
+  };
+  success: true;
 };
 
 type getTokenTypeProp = {
@@ -36,14 +36,12 @@ type getTokenTypeProp = {
 };
 
 type getTokenReturnType = {
-  data: {
-    access: string,
-    refresh: string
-  }
+  refresh: string;
+  access: string;
 };
 
-type refreshTokenTypeProp = {
-  refresh: string;
+type refreshTokenReturnType = {
+  access: string;
 };
 
 export const signIn = (data: signInTypeProp): Promise<signInReturnType> => {
@@ -51,7 +49,7 @@ export const signIn = (data: signInTypeProp): Promise<signInReturnType> => {
     headers: {
       'content-type': 'application/json',
     },
-  })
+  });
 };
 
 export const signUp = (data: signUpTypeProp): Promise<signUpReturnType> => {
@@ -59,21 +57,33 @@ export const signUp = (data: signUpTypeProp): Promise<signUpReturnType> => {
     headers: {
       'content-type': 'application/json',
     },
-  })
-};
-
-export const getToken = (data: getTokenTypeProp): Promise<getTokenReturnType> => {
-  return axios.post(BASE_URL + '/user/token/', data, {
-    headers: {
-      'content-type': 'application/json',
-    },
   });
 };
 
-export const refreshToken = (data: refreshTokenTypeProp) => {
-  return axios.post(BASE_URL + '/user/token/', data, {
-    headers: {
-      'content-type': 'application/json',
-    },
-  });
+export const getTokens = (
+  data: getTokenTypeProp,
+): Promise<getTokenReturnType> => {
+  return axios
+    .post(BASE_URL + '/user/token/', data, {
+      headers: {
+        'content-type': 'application/json',
+      },
+    })
+    .then((res) => res.data);
+};
+
+export const refreshToken = (
+  refresh: string,
+): Promise<refreshTokenReturnType> => {
+  return axios
+    .post(
+      BASE_URL + '/user/token/refresh/',
+      { refresh },
+      {
+        headers: {
+          'content-type': 'application/json',
+        },
+      },
+    )
+    .then((res) => res.data);
 };

@@ -1,12 +1,24 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TrackType } from '@/sharedTypes/sharedTypes';
+import { applyFilters } from '@/utils/applyFilters';
 
-type initialStateType = {
+export type initialStateType = {
   currentTrack: TrackType | null;
   isPlay: boolean;
   playList: TrackType[];
   shuffledPlayList: TrackType[];
   isShuffle: boolean;
+  allTracks: TrackType[];
+  favoriteTracks: TrackType[];
+  fetchError: string;
+  fetchIsLoading: boolean;
+  pagePlaylist: TrackType[];
+  filteredTracks: TrackType[];
+  filters: {
+    authors: string[];
+    genres: string[];
+    years: string;
+  };
 };
 
 const initialState: initialStateType = {
@@ -15,6 +27,17 @@ const initialState: initialStateType = {
   playList: [],
   shuffledPlayList: [],
   isShuffle: false,
+  allTracks: [],
+  favoriteTracks: [],
+  fetchError: '',
+  fetchIsLoading: true,
+  pagePlaylist: [],
+  filteredTracks: [],
+  filters: {
+    authors: [],
+    genres: [],
+    years: 'По умолчанию',
+  },
 };
 
 const trackSlice = createSlice({
@@ -67,6 +90,61 @@ const trackSlice = createSlice({
         }
       }
     },
+    setAllTracks: (state, action: PayloadAction<TrackType[]>) => {
+      state.allTracks = action.payload;
+    },
+    setFavoriteTracks: (state, action: PayloadAction<TrackType[]>) => {
+      state.favoriteTracks = action.payload;
+    },
+    addLikedTracks: (state, action: PayloadAction<TrackType>) => {
+      state.favoriteTracks = [...state.favoriteTracks, action.payload];
+      localStorage.setItem(
+        'favoriteTracks',
+        JSON.stringify(state.favoriteTracks),
+      );
+    },
+    removeLikedTracks: (state, action: PayloadAction<TrackType>) => {
+      state.favoriteTracks = state.favoriteTracks.filter(
+        (track) => track._id !== action.payload._id,
+      );
+      localStorage.setItem(
+        'favoriteTracks',
+        JSON.stringify(state.favoriteTracks),
+      );
+    },
+    setFetchError: (state, action: PayloadAction<string>) => {
+      state.fetchError = action.payload;
+    },
+    setFetchIsLoading: (state, action: PayloadAction<boolean>) => {
+      state.fetchIsLoading = action.payload;
+    },
+    setPagePlaylist: (state, action) => {
+      state.pagePlaylist = action.payload;
+    },
+    setFIlterAuthors: (state, action: PayloadAction<string>) => {
+      const author = action.payload;
+      if (state.filters.authors.includes(author)) {
+        state.filters.authors = state.filters.authors.filter((el) => {
+          return el != author;
+        });
+      } else {
+        state.filters.authors = [...state.filters.authors, author];
+      }
+
+      state.filteredTracks = applyFilters(state);
+    },
+    setFIlterGenres: (state, action: PayloadAction<string>) => {
+      const genres = action.payload;
+      if (state.filters.genres.includes(genres)) {
+        state.filters.genres = state.filters.genres.filter((el) => {
+          return el != genres;
+        });
+      } else {
+        state.filters.genres = [...state.filters.genres, genres];
+      }
+
+      state.filteredTracks = applyFilters(state);
+    },
   },
 });
 
@@ -77,5 +155,14 @@ export const {
   setNextTrack,
   setPrevTrack,
   toggleShuffle,
+  setAllTracks,
+  setFetchError,
+  setFetchIsLoading,
+  addLikedTracks,
+  setFavoriteTracks,
+  removeLikedTracks,
+  setFIlterAuthors,
+  setPagePlaylist,
+  setFIlterGenres,
 } = trackSlice.actions;
 export const trackSliceReducer = trackSlice.reducer;

@@ -3,25 +3,35 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './sidebar.module.css';
+import { useAppSelector } from '@/store/store';
+import { useDispatch } from 'react-redux';
+import { clearUser } from '@/store/features/authSlice';
+import { useRouter } from 'next/navigation';
 
 export default function Sidebar() {
-  const userName = localStorage.getItem('userName');
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const username = useAppSelector((state) => state.auth.username);
 
   const handleExit = () => {
-    localStorage.removeItem('userName')
-    localStorage.removeItem('userId')
+    dispatch(clearUser());
+    localStorage.removeItem('userId');
+    router.push('/music/main')
   };
 
   return (
     <div className={styles.main__sidebar}>
       <div className={styles.sidebar__personal}>
-        <p className={styles.sidebar__personalName}>{userName || 'Гость'}</p>
+        <p className={styles.sidebar__personalName}>{username || 'Гость'}</p>
         <div className={styles.sidebar__icon}>
-          <Link className={styles.sidebar__link} href="/auth/signin" onClick={handleExit}>
+          <div
+            className={styles.sidebar__link}
+            onClick={handleExit}
+          >
             <svg>
               <use xlinkHref="/img/icon/sprite.svg#logout"></use>
             </svg>
-          </Link>
+          </div>
         </div>
       </div>
       <div className={styles.sidebar__block}>
@@ -34,6 +44,7 @@ export default function Sidebar() {
                 alt="day's playlist"
                 width={250}
                 height={150}
+                priority
               />
             </Link>
           </div>
