@@ -45,3 +45,7 @@ export function getUniqueValuesByKey(
   // Преобразуем Set обратно в массив и возвраащаем
   return Array.from(uniqueValues);
 }
+
+export function searchNameTracks(data: string, arr: TrackType[]): TrackType[] {
+  return arr.filter((track) => track.name.toLowerCase().includes(data.toLowerCase()));
+}

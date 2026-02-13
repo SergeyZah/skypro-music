@@ -52,7 +52,7 @@ export default function CategoryPage() {
   }, [params.id, allTracks, fetchIsLoading]);
 
   useEffect(() => {
-    const currentPlaylist = filters.authors.length || filters.genres.length || (filters.years !== 'По умолчанию') ? filteredTracks : categoryTracks;
+    const currentPlaylist = filters.authors.length || filters.genres.length || (filters.years !== 'По умолчанию') || filters.search.length ? filteredTracks : categoryTracks;
     setPlaylist(currentPlaylist);
   }, [filteredTracks, categoryTracks, filters]);
 

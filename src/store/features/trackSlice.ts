@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TrackType } from '@/sharedTypes/sharedTypes';
 import { applyFilters } from '@/utils/applyFilters';
+import { searchNameTracks } from '@/utils/helper';
 
 export type initialStateType = {
   currentTrack: TrackType | null;
@@ -18,6 +19,7 @@ export type initialStateType = {
     authors: string[];
     genres: string[];
     years: string;
+    search: string;
   };
 };
 
@@ -37,6 +39,7 @@ const initialState: initialStateType = {
     authors: [],
     genres: [],
     years: 'По умолчанию',
+    search: '',
   },
 };
 
@@ -168,6 +171,16 @@ const trackSlice = createSlice({
 
       state.filteredTracks = applyFilters(state);
     },
+    setSearchTrack: (state, action: PayloadAction<string>) => {
+      state.filters.search = action.payload;
+      console.log(state.filters.search);
+
+      const filteredTracks = applyFilters(state);
+      state.filteredTracks = searchNameTracks(
+        state.filters.search,
+        filteredTracks,
+      );
+    },
   },
 });
 
@@ -188,5 +201,6 @@ export const {
   setPagePlaylist,
   setFIlterGenres,
   setFilterYears,
+  setSearchTrack,
 } = trackSlice.actions;
 export const trackSliceReducer = trackSlice.reducer;

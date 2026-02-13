@@ -11,7 +11,7 @@ export default function FavoritePage () {
     const [playlist, setPlaylist] = useState<TrackType[]>([]);
 
     useEffect(() => {
-        const currentPlaylist = filters.authors.length || filters.genres.length || (filters.years !== 'По умолчанию') ? filteredTracks : favoriteTracks;
+        const currentPlaylist = filters.authors.length || filters.genres.length || (filters.years !== 'По умолчанию') || filters.search.length ? filteredTracks : favoriteTracks;
         setPlaylist(currentPlaylist);
       }, [filteredTracks, favoriteTracks, filters]);
 
