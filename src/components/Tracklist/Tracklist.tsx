@@ -28,7 +28,7 @@ export default function Tracklist({
             return <Track key={track._id} track={track} playList={playList} />;
           })}
         </div>
-      ): (<div className={styles.none__tracks}>Нет треков</div>))}
+      ) : (<div className={styles.none__tracks}>Нет треков</div>))}
     </div>
   );
 }

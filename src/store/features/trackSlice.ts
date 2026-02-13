@@ -133,6 +133,29 @@ const trackSlice = createSlice({
 
       state.filteredTracks = applyFilters(state);
     },
+    setFilterYears: (state, action: PayloadAction<string>) => {
+      state.filters.years = action.payload;
+      state.filteredTracks = applyFilters(state);
+
+      if (state.filters.years === 'Сначала новые') {
+        state.filteredTracks = [...state.filteredTracks].sort((a, b) => {
+          return (
+            new Date(b.release_date).getTime() -
+            new Date(a.release_date).getTime()
+          );
+        });
+      } else if (state.filters.years === 'Сначала старые') {
+        state.filteredTracks = [...state.filteredTracks].sort((a, b) => {
+          return (
+            new Date(a.release_date).getTime() -
+            new Date(b.release_date).getTime()
+          );
+        });
+      } else if (state.filters.years === 'По умолчанию') {
+        state.filteredTracks = state.filteredTracks;
+        return;
+      }
+    },
     setFIlterGenres: (state, action: PayloadAction<string>) => {
       const genres = action.payload;
       if (state.filters.genres.includes(genres)) {
@@ -164,5 +187,6 @@ export const {
   setFIlterAuthors,
   setPagePlaylist,
   setFIlterGenres,
+  setFilterYears,
 } = trackSlice.actions;
 export const trackSliceReducer = trackSlice.reducer;
