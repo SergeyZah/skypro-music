@@ -1,17 +1,28 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 'use client'
 
 import Centerblock from "@/components/Centerblock/Centerblock";
+import { TrackType } from "@/sharedTypes/sharedTypes";
 import { useAppSelector } from "@/store/store";
+import { useEffect, useState } from "react";
 
 export default function FavoritePage () {
-    const { favoriteTracks, fetchIsLoading, fetchError } = useAppSelector((state) => state.tracks)
+    const { favoriteTracks, fetchIsLoading, fetchError, filters, filteredTracks } = useAppSelector((state) => state.tracks)
+    const [playlist, setPlaylist] = useState<TrackType[]>([]);
+
+    useEffect(() => {
+        const currentPlaylist = filters.authors.length || filters.genres.length || (filters.years !== 'По умолчанию') ? filteredTracks : favoriteTracks;
+        setPlaylist(currentPlaylist);
+      }, [filteredTracks, favoriteTracks, filters]);
+
     return (
         <>
           <Centerblock
-            playList={favoriteTracks}
+            playList={playlist}
             namePlaylist={'Мои треки'}
             isLoading={fetchIsLoading}
             error={fetchError || ''}
+            pagePlaylist={favoriteTracks}
           />
         </>
       );

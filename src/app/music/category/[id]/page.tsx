@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 'use client';
 
 import Centerblock from '@/components/Centerblock/Centerblock';
@@ -11,12 +12,13 @@ import { useEffect, useState } from 'react';
 export default function CategoryPage() {
   const params = useParams<{ id: string }>();
 
-  const { allTracks, fetchIsLoading, fetchError } = useAppSelector((state) => state.tracks);
+  const { allTracks, fetchIsLoading, fetchError, filters, filteredTracks } = useAppSelector((state) => state.tracks);
 
   const [error, setError] = useState('');
   const [namePlayList, setNamePlayList] = useState('');
   const [categoryTracks, setCategoryTracks] = useState<TrackType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [playlist, setPlaylist] = useState<TrackType[]>([]);
 
   useEffect(() => {
     if (!fetchIsLoading && allTracks.length) {
@@ -49,11 +51,16 @@ export default function CategoryPage() {
     }
   }, [params.id, allTracks, fetchIsLoading]);
 
+  useEffect(() => {
+    const currentPlaylist = filters.authors.length || filters.genres.length || (filters.years !== 'По умолчанию') ? filteredTracks : categoryTracks;
+    setPlaylist(currentPlaylist);
+  }, [filteredTracks, categoryTracks, filters]);
+
   return (
     <>
       <Centerblock
-        playList={categoryTracks}
-        pagePlaylist={allTracks}
+        playList={playlist}
+        pagePlaylist={categoryTracks}
         namePlaylist={namePlayList}
         isLoading={isLoading}
         error={fetchError || error}
