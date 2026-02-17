@@ -82,3 +82,10 @@
   width: 100%;
   height: auto;
 }
+
+.sidebar__none {
+  width: 250px;
+  height: 150px;
+  background-color: rgba(49, 49, 49, 1);
+  margin-bottom: 30px;
+}
