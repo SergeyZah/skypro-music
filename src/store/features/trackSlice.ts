@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TrackType } from '@/sharedTypes/sharedTypes';
 import { applyFilters } from '@/utils/applyFilters';
+import { searchNameTracks } from '@/utils/helper';
 
 export type initialStateType = {
   currentTrack: TrackType | null;
@@ -18,6 +19,7 @@ export type initialStateType = {
     authors: string[];
     genres: string[];
     years: string;
+    search: string;
   };
 };
 
@@ -37,6 +39,7 @@ const initialState: initialStateType = {
     authors: [],
     genres: [],
     years: 'По умолчанию',
+    search: '',
   },
 };
 
@@ -133,6 +136,29 @@ const trackSlice = createSlice({
 
       state.filteredTracks = applyFilters(state);
     },
+    setFilterYears: (state, action: PayloadAction<string>) => {
+      state.filters.years = action.payload;
+      state.filteredTracks = applyFilters(state);
+
+      if (state.filters.years === 'Сначала новые') {
+        state.filteredTracks = [...state.filteredTracks].sort((a, b) => {
+          return (
+            new Date(b.release_date).getTime() -
+            new Date(a.release_date).getTime()
+          );
+        });
+      } else if (state.filters.years === 'Сначала старые') {
+        state.filteredTracks = [...state.filteredTracks].sort((a, b) => {
+          return (
+            new Date(a.release_date).getTime() -
+            new Date(b.release_date).getTime()
+          );
+        });
+      } else if (state.filters.years === 'По умолчанию') {
+        state.filteredTracks = state.filteredTracks;
+        return;
+      }
+    },
     setFIlterGenres: (state, action: PayloadAction<string>) => {
       const genres = action.payload;
       if (state.filters.genres.includes(genres)) {
@@ -144,6 +170,16 @@ const trackSlice = createSlice({
       }
 
       state.filteredTracks = applyFilters(state);
+    },
+    setSearchTrack: (state, action: PayloadAction<string>) => {
+      state.filters.search = action.payload;
+      console.log(state.filters.search);
+
+      const filteredTracks = applyFilters(state);
+      state.filteredTracks = searchNameTracks(
+        state.filters.search,
+        filteredTracks,
+      );
     },
   },
 });
@@ -164,5 +200,7 @@ export const {
   setFIlterAuthors,
   setPagePlaylist,
   setFIlterGenres,
+  setFilterYears,
+  setSearchTrack,
 } = trackSlice.actions;
 export const trackSliceReducer = trackSlice.reducer;

@@ -6,7 +6,11 @@ import styles from './filter.module.css';
 import { TrackType } from '@/sharedTypes/sharedTypes';
 import { useAppDispatch } from '@/store/store';
 import { getUniqueValuesByKey } from '@/utils/helper';
-import { setFIlterAuthors, setFIlterGenres } from '@/store/features/trackSlice';
+import {
+  setFIlterAuthors,
+  setFIlterGenres,
+  setFilterYears,
+} from '@/store/features/trackSlice';
 
 type FilterTypeProp = {
   playList: TrackType[];
@@ -16,6 +20,7 @@ export default function Filter({ playList }: FilterTypeProp) {
   const [activeFilter, setActiveFilter] = useState<null | string>(null);
   const [isActiveAuthorId, setIsActiveAuthorId] = useState<string[]>([]);
   const [isActiveGenreId, setIsActiveGenreId] = useState<string[]>([]);
+  const [isActiveYearId, setIsActiveYearId] = useState<string[]>([]);
   const dispatch = useAppDispatch();
 
   const changeActiveFilter = (filterType: string) => {
@@ -37,6 +42,11 @@ export default function Filter({ playList }: FilterTypeProp) {
     } else {
       setIsActiveAuthorId([...isActiveAuthorId, id]);
     }
+  };
+
+  const onSelectYears = (years: string, id: string) => {
+    dispatch(setFilterYears(years));
+    setIsActiveYearId([id]);
   };
 
   const onSelectGenres = (genre: string, id: string) => {
@@ -66,8 +76,8 @@ export default function Filter({ playList }: FilterTypeProp) {
         activeFilter={activeFilter}
         titleFilter="году выпуска"
         changeActiveFilter={changeActiveFilter}
-        onSelect={onSelectAuthor}
-        isActiveFilterId={isActiveAuthorId}
+        onSelect={onSelectYears}
+        isActiveFilterId={isActiveYearId}
       />
       <FilterItem
         filterType={'genre'}

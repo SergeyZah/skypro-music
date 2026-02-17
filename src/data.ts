@@ -1,6 +1,19 @@
-import { TrackType } from "./sharedTypes/sharedTypes";
+import { TrackType } from './sharedTypes/sharedTypes';
 
 export const data: TrackType[] = [
+  {
+    _id: 7,
+    name: 'Song № 4',
+    author: 'Alexander Nakarada',
+    release_date: '2005-06-11',
+    genre: ['Классическая музыка'],
+    duration_in_seconds: 128,
+    album: 'Chase',
+    logo: null,
+    track_file:
+      'https://webdev-music-003b5b991590.herokuapp.com/media/music_files/Alexander_Nakarada_-_Chase.mp3',
+    stared_user: [],
+  },
   {
     _id: 8,
     name: 'Chase',

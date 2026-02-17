@@ -12,6 +12,10 @@ export const getTimePanel = (
   currentTime: number,
   totalTime: number | undefined,
 ) => {
+  if (totalTime === 0) {
+    return `${formatTime(currentTime)} / ${formatTime(totalTime)}`
+  };
+
   if (totalTime) {
     return `${formatTime(currentTime)} / ${formatTime(totalTime)}`;
   }
@@ -45,3 +49,8 @@ export function getUniqueValuesByKey(
   // Преобразуем Set обратно в массив и возвраащаем
   return Array.from(uniqueValues);
 }
+
+export function searchNameTracks(data: string, arr: TrackType[]): TrackType[] {
+  return arr.filter((track) => track.name.toLowerCase().includes(data.toLowerCase()));
+}
+
