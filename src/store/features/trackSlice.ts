@@ -101,18 +101,10 @@ const trackSlice = createSlice({
     },
     addLikedTracks: (state, action: PayloadAction<TrackType>) => {
       state.favoriteTracks = [...state.favoriteTracks, action.payload];
-      localStorage.setItem(
-        'favoriteTracks',
-        JSON.stringify(state.favoriteTracks),
-      );
     },
     removeLikedTracks: (state, action: PayloadAction<TrackType>) => {
       state.favoriteTracks = state.favoriteTracks.filter(
         (track) => track._id !== action.payload._id,
-      );
-      localStorage.setItem(
-        'favoriteTracks',
-        JSON.stringify(state.favoriteTracks),
       );
     },
     setFetchError: (state, action: PayloadAction<string>) => {
@@ -181,6 +173,9 @@ const trackSlice = createSlice({
         filteredTracks,
       );
     },
+    resetFilters: (state) => {
+      state.filters = initialState.filters;
+    },
   },
 });
 
@@ -202,5 +197,6 @@ export const {
   setFIlterGenres,
   setFilterYears,
   setSearchTrack,
+  resetFilters,
 } = trackSlice.actions;
 export const trackSliceReducer = trackSlice.reducer;
