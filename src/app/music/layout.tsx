@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { ReactNode, useEffect } from 'react';
 import styles from './layout.module.css';
@@ -8,7 +8,15 @@ import Bar from '@/components/Bar/Bar';
 import FetchingTracks from '@/components/FetchingTracks/FetchingTracks';
 import { useInitAuth } from '@/hooks/useInitAuth';
 import { useDispatch } from 'react-redux';
-import { setFavoriteTracks } from '@/store/features/trackSlice';
+import {
+  setFavoriteTracks,
+  setFetchError,
+  setFetchIsLoading,
+} from '@/store/features/trackSlice';
+import { useAppSelector } from '@/store/store';
+import { getTracksFavorite } from '@/services/tracks/tracksApi';
+import { AxiosError } from 'axios';
+import { withReauth } from '@/utils/withReAuth';
 
 interface AuthLayoutProps {
   children: ReactNode;
@@ -16,13 +24,45 @@ interface AuthLayoutProps {
 
 export default function AuthLayout({ children }: AuthLayoutProps) {
   const dispatch = useDispatch();
+  const { favoriteTracks } = useAppSelector((state) => state.tracks);
+  const { access, refresh } = useAppSelector((state) => state.auth);
 
-  useInitAuth()
+  useInitAuth();
 
   useEffect(() => {
     const saveFavoritesTracks = localStorage.getItem('favoriteTracks');
-    const favoriteTracks = saveFavoritesTracks ? JSON.parse(saveFavoritesTracks) : []
+    const favoriteTracks = saveFavoritesTracks
+      ? JSON.parse(saveFavoritesTracks)
+      : [];
     dispatch(setFavoriteTracks(favoriteTracks));
+
+    if (favoriteTracks.length) {
+      dispatch(setFavoriteTracks(favoriteTracks));
+    } else {
+      dispatch(setFetchIsLoading(true));
+      withReauth(
+        (newToken) => getTracksFavorite(newToken || access),
+        refresh,
+        dispatch,
+      )
+        .then((res) => {
+          dispatch(setFavoriteTracks(res));
+        })
+        .catch((error) => {
+          if (error instanceof AxiosError)
+            if (error.response) {
+              dispatch(setFetchError(error.response.data));
+            } else if (error.request) {
+              dispatch(setFetchError('Произошла ошибка. Попробуйте позже'));
+              console.log(error);
+            } else {
+              dispatch(setFetchError('Неизвестная ошибка'));
+            }
+        })
+        .finally(() => {
+          dispatch(setFetchIsLoading(false));
+        });
+    }
   }, [dispatch]);
 
   return (
