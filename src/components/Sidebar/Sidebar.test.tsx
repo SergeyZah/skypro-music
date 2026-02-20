@@ -20,7 +20,7 @@ describe('Sidebar component with next/navigation', () => {
   test('Отображается кнопка выхода', () => {
     const { container } = render(
       <ReduxProvider>
-        <Sidebar />
+        <Sidebar isLoading={false}/>
       </ReduxProvider>
     );
 

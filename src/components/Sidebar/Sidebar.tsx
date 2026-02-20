@@ -8,7 +8,11 @@ import { useDispatch } from 'react-redux';
 import { clearUser } from '@/store/features/authSlice';
 import { useRouter } from 'next/navigation';
 
-export default function Sidebar() {
+type SidebarTypeProp = {
+  isLoading: boolean;
+};
+
+export default function Sidebar({isLoading}: SidebarTypeProp) {
   const dispatch = useDispatch();
   const router = useRouter();
   const username = useAppSelector((state) => state.auth.username);
@@ -34,7 +38,7 @@ export default function Sidebar() {
       </div>
       <div className={styles.sidebar__block}>
         <div className={styles.sidebar__list}>
-          {fetchIsLoading ? (
+          {isLoading ? (
             <div className={styles.sidebar__none}></div>
           ) : (
             <div className={styles.sidebar__item}>
@@ -50,7 +54,7 @@ export default function Sidebar() {
               </Link>
             </div>
           )}
-          {fetchIsLoading ? (
+          {isLoading ? (
             <div className={styles.sidebar__none}></div>
           ) : (
             <div className={styles.sidebar__item}>
@@ -65,7 +69,7 @@ export default function Sidebar() {
               </Link>
             </div>
           )}
-          {fetchIsLoading ? (
+          {isLoading ? (
             <div className={styles.sidebar__none}></div>
           ) : (
             <div className={styles.sidebar__item}>

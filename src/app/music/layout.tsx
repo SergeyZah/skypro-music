@@ -7,12 +7,14 @@ import Sidebar from '@/components/Sidebar/Sidebar';
 import Bar from '@/components/Bar/Bar';
 import FetchingTracks from '@/components/FetchingTracks/FetchingTracks';
 import { useInitAuth } from '@/hooks/useInitAuth';
+import { useAppSelector } from '@/store/store';
 
 interface AuthLayoutProps {
   children: ReactNode;
 }
 
 export default function AuthLayout({ children }: AuthLayoutProps) {
+  const {fetchIsLoading} = useAppSelector((state) => state.tracks)
 
   useInitAuth();
 
@@ -24,7 +26,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
             <FetchingTracks />
             <Navigate />
             {children}
-            <Sidebar />
+            <Sidebar isLoading={fetchIsLoading}/>
           </main>
           <Bar />
           <footer className="footer"></footer>
