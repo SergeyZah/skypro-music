@@ -211,6 +211,15 @@
   min-width: 49px;
 }
 
+.trackPlay__author_none {
+  grid-row: 1;
+  grid-column: 2;
+  grid-area: author;
+  width: 49px;
+  height: 15px;
+  background-color: rgba(49, 49, 49, 1);
+}
+
 .trackPlay__authorLink {
   font-style: normal;
   font-weight: 400;
@@ -225,6 +234,15 @@
   grid-column: 2;
   grid-area: album;
   min-width: 49px;
+}
+
+.trackPlay__album_none {
+  grid-row: 2;
+  grid-column: 2;
+  grid-area: album;
+  width: 49px;
+  height: 15px;
+  background-color: rgba(49, 49, 49, 1);
 }
 
 .trackPlay__albumLink {

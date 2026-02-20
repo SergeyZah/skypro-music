@@ -20,7 +20,7 @@ describe('Sidebar component with next/navigation', () => {
   test('Отображается кнопка выхода', () => {
     const { container } = render(
       <ReduxProvider>
-        <Sidebar />
+        <Sidebar isLoading={false}/>
       </ReduxProvider>
     );
 
@@ -35,7 +35,7 @@ describe('Sidebar component with next/navigation', () => {
   test('Отображается три карточки категорий', () => {
     const { container } = render(
       <ReduxProvider>
-        <Sidebar />
+        <Sidebar isLoading={false}/>
       </ReduxProvider>
     );
 

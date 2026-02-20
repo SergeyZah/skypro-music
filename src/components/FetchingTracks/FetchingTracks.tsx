@@ -1,19 +1,21 @@
 'use client';
 
-import { getTracks } from '@/services/tracks/tracksApi';
+import { getTracks, getTracksFavorite } from '@/services/tracks/tracksApi';
 import {
   setAllTracks,
+  setFavoriteTracks,
   setFetchError,
   setFetchIsLoading,
 } from '@/store/features/trackSlice';
-import { useAppSelector } from '@/store/store';
+import { useAppDispatch, useAppSelector } from '@/store/store';
+import { withReauth } from '@/utils/withReAuth';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 
 export default function FetchingTracks() {
-  const dispatch = useDispatch();
-  const { allTracks } = useAppSelector((state) => state.tracks);
+  const dispatch = useAppDispatch();
+  const { allTracks, favoriteTracks } = useAppSelector((state) => state.tracks);
+  const { access, refresh } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     if (allTracks.length) {
@@ -30,15 +32,49 @@ export default function FetchingTracks() {
               dispatch(setFetchError(error.response.data));
             } else if (error.request) {
               dispatch(setFetchError('Произошла ошибка. Попробуйте позже'));
-              console.log(error)
+              console.log(error);
             } else {
               dispatch(setFetchError('Неизвестная ошибка'));
             }
         })
         .finally(() => {
           dispatch(setFetchIsLoading(false));
-        })
+        });
     }
   }, []);
-  return <></>
+
+  useEffect(() => {
+    if (access) {
+      if (favoriteTracks.length) {
+        dispatch(setFavoriteTracks(favoriteTracks));
+      } else {
+        dispatch(setFetchIsLoading(true));
+        withReauth(
+          (newToken) => getTracksFavorite(newToken || access),
+          refresh,
+          dispatch,
+        )
+          .then((res) => {
+            dispatch(setFavoriteTracks(res));
+          })
+          .catch((error) => {
+            console.log(error);
+            if (error instanceof AxiosError)
+              if (error.response) {
+                dispatch(setFetchError(error.response.data));
+                console.log(error.response.data);
+              } else if (error.request) {
+                dispatch(setFetchError('Произошла ошибка. Попробуйте позже'));
+                console.log(error);
+              } else {
+                dispatch(setFetchError('Неизвестная ошибка'));
+              }
+          })
+          .finally(() => {
+            dispatch(setFetchIsLoading(false));
+          });
+      }
+    }
+  }, [access, refresh]);
+  return <></>;
 }
