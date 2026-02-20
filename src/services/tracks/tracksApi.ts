@@ -15,14 +15,13 @@ export const getTracksSelection = (id: string): Promise<PlayListType> => {
 };
 
 export const getTracksFavorite = (access: string): Promise<TrackType[]> => {
-  return axios(
-    BASE_URL + `/catalog/track/favorite/all/`,
-    {
-      headers: {
-        Authorization: `Bearer ${access}`,
-      },
+  return axios(BASE_URL + `/catalog/track/favorite/all/`, {
+    headers: {
+      Authorization: `Bearer ${access}`,
     },
-  );
+  }).then((res) => {
+    return res.data.data;
+  });
 };
 
 export const addLike = (access: string, id: number) => {

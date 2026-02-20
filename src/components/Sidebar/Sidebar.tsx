@@ -12,7 +12,7 @@ export default function Sidebar() {
   const dispatch = useDispatch();
   const router = useRouter();
   const username = useAppSelector((state) => state.auth.username);
-  const { fetchIsLoading } = useAppSelector((state) => state.tracks);
+  const {fetchIsLoading} = useAppSelector((state) => state.tracks)
 
   const handleExit = () => {
     dispatch(clearUser());
