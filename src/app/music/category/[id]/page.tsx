@@ -1,16 +1,17 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 'use client';
 
 import Centerblock from '@/components/Centerblock/Centerblock';
 import { getTracksSelection } from '@/services/tracks/tracksApi';
 import { PlayListType, TrackType } from '@/sharedTypes/sharedTypes';
-import { useAppSelector } from '@/store/store';
+import { resetFilters } from '@/store/features/trackSlice';
+import { useAppDispatch, useAppSelector } from '@/store/store';
 import { AxiosError } from 'axios';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function CategoryPage() {
   const params = useParams<{ id: string }>();
+  const dispatch = useAppDispatch();
 
   const { allTracks, fetchIsLoading, fetchError, filters, filteredTracks } = useAppSelector((state) => state.tracks);
 
@@ -19,6 +20,10 @@ export default function CategoryPage() {
   const [categoryTracks, setCategoryTracks] = useState<TrackType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [playlist, setPlaylist] = useState<TrackType[]>([]);
+
+  useEffect(() => {
+    dispatch(resetFilters());
+  }, []);
 
   useEffect(() => {
     if (!fetchIsLoading && allTracks.length) {

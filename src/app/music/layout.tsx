@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { ReactNode, useEffect } from 'react';
 import styles from './layout.module.css';
@@ -7,23 +7,16 @@ import Sidebar from '@/components/Sidebar/Sidebar';
 import Bar from '@/components/Bar/Bar';
 import FetchingTracks from '@/components/FetchingTracks/FetchingTracks';
 import { useInitAuth } from '@/hooks/useInitAuth';
-import { useDispatch } from 'react-redux';
-import { setFavoriteTracks } from '@/store/features/trackSlice';
+import { useAppSelector } from '@/store/store';
 
 interface AuthLayoutProps {
   children: ReactNode;
 }
 
 export default function AuthLayout({ children }: AuthLayoutProps) {
-  const dispatch = useDispatch();
+  const {fetchIsLoading} = useAppSelector((state) => state.tracks)
 
-  useInitAuth()
-
-  useEffect(() => {
-    const saveFavoritesTracks = localStorage.getItem('favoriteTracks');
-    const favoriteTracks = saveFavoritesTracks ? JSON.parse(saveFavoritesTracks) : []
-    dispatch(setFavoriteTracks(favoriteTracks));
-  }, [dispatch]);
+  useInitAuth();
 
   return (
     <>
@@ -33,7 +26,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
             <FetchingTracks />
             <Navigate />
             {children}
-            <Sidebar />
+            <Sidebar isLoading={fetchIsLoading}/>
           </main>
           <Bar />
           <footer className="footer"></footer>
